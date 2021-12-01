@@ -85,7 +85,7 @@ elif [ $opc = "U" ] || [ $opc = "u" ]; then
 	echo -e '\e[96mStarting the VulTek-Alert update...\e[0m'
 	echo ''
 	dir=$(sudo pwd)
-	cp -r Vultek-Alert-Suite /etc/
+	cp -r VulTek-Alert-Suite /etc/
 	chown vultek_alert:vultek_alert -R /etc/VulTek-Alert-Suite
 	sleep 3
 	echo -e '\e[96mVulTek-Alert updated...\e[0m'
