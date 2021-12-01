@@ -59,7 +59,7 @@ class Telegram:
 	cvss3_score -- Score of Common Vulnerability Scoring System.
 
 	Return:
-	message -- Header of the message.
+	message -- Message to be sent in the alert.
 	"""
 	def getVulnerabilityMessage(self, cve, public_date, severity, bugzilla_description, cwe, cvss3_scoring_vector, cvss3_score):
 		message = u'\u26A0\uFE0F' + " " + 'VulTek-Alert' +  " " + u'\u26A0\uFE0F' + "\n\n" + u'\u23F0' + " Alert sent: " + strftime("%c") + "\n\n\n"
@@ -70,6 +70,21 @@ class Telegram:
 		message += u'\u2611\uFE0F' + " CWE: " + str(cwe) + '\n'
 		message += u'\u2611\uFE0F' + " CVSS3 Scoring Vector: " + str(cvss3_scoring_vector) + '\n'
 		message += u'\u2611\uFE0F' + " CVSS3 Score: " + str(cvss3_score) + '\n'
+		return message
+
+	"""
+	Method that generates the message that will be sent in the alert when CVE's are not found.
+
+	Parameters:
+	self -- An instantiated object of the Telegram class.
+	severity -- Severity level of vulnerability.
+
+	Return:
+	message -- Message to be sent in the alert.
+	"""
+	def getNotVulnerabilityFoundMessage(self, severity):
+		message = u'\u26A0\uFE0F' + " " + 'VulTek-Alert' +  " " + u'\u26A0\uFE0F' + "\n\n" + u'\u23F0' + " Alert sent: " + strftime("%c") + "\n\n\n"
+		message += u'\u270F\uFE0F' + " No CVE's of the following severity were found: " + severity
 		return message
 	
 	"""

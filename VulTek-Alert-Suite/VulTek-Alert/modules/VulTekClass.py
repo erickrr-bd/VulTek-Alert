@@ -56,7 +56,10 @@ class VulTek:
 						if response_http.status_code == 200:
 							cve_data_json = response_http.json()
 							if len(cve_data_json) == 0:
+								self.utils.createVulTekAlertLog("No CVE's were found with the following severity: " + severity, 1)
 								print("No CVE's were found with the following severity: " + severity)
+								message_telegram = self.telegram.getNotVulnerabilityFoundMessage(severity)
+								self.telegram.sendTelegramAlert(self.utils.decryptAES(data_configuration_vultek['telegram_chat_id']).decode('utf-8'), self.utils.decryptAES(data_configuration_vultek['telegram_bot_token']).decode('utf-8'), message_telegram)
 							else:
 								for data_json in cve_data_json:
 									cve = data_json['CVE']
@@ -66,6 +69,8 @@ class VulTek:
 									cwe = data_json['CWE']
 									cvss3_scoring_vector = data_json['cvss3_scoring_vector']
 									cvss3_score = data_json['cvss3_score']
+									self.utils.createVulTekAlertLog("CVE Found: " + cve + ", severity: " + severity, 1)
+									print("CVE Found: " + cve + ", severity: " + severity)
 									message_telegram = self.telegram.getVulnerabilityMessage(cve, public_date, severity, bugzilla_description, cwe, cvss3_scoring_vector, cvss3_score)
 									self.telegram.sendTelegramAlert(self.utils.decryptAES(data_configuration_vultek['telegram_chat_id']).decode('utf-8'), self.utils.decryptAES(data_configuration_vultek['telegram_bot_token']).decode('utf-8'), message_telegram)
 						else:
