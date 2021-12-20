@@ -7,6 +7,7 @@ Email: erodriguez@tekium.mx, erickrr.tbd93@gmail.com
 License: GPLv3
 
 VulTek-Alert is an application that obtains the CVE's of a certain level or levels (configurable) of the Red Hat Security Data API and sends the results obtained to a Telegram channel. In order to be aware of the vulnerabilities that affect Red Hat systems and thus take action in a timely manner.
+
 For more information:
 
 https://access.redhat.com/documentation/en-us/red_hat_security_data_api/1.0/html-single/red_hat_security_data_api/index
