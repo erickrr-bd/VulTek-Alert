@@ -6,10 +6,14 @@ Email: erodriguez@tekium.mx, erickrr.tbd93@gmail.com
 
 License: GPLv3
 
-Telk-Alert is a tool that through ElasticSearch (Query String) searches carried out every certain time, sends alerts to a Telegram channel or one or more email addresses in a timely manner, which translates into a constant and efficient monitoring of events stored in ElasticSearch.
+VulTek-Alert is an application that obtains the CVE's from a previous day using the Red Hat Security Data API and sending the result to a Telegram channel.
+
+For more information:
+
+https://access.redhat.com/documentation/en-us/red_hat_security_data_api/1.0/html-single/red_hat_security_data_api/index
 
 # Applications
-## Telk-Alert
+## VulTek-Alert
 Application that allows data searches in ElasticSearch using defined rules, and when events are found, it allows sending alerts to the user with details about the event found.
 
 Characteristics:
@@ -26,7 +30,7 @@ Characteristics:
 - In case of finding more than one event, the alert can be configured to send only one message and the total number of events or one message for each event found.
 - Parse data that will be sent in the alert to give you a better view.
 
-## Telk-Alert-Tool
+## VulTek-Alert-Tool
 Telk-Alert graphical tool that allows the user to define the configuration and alert rules that will be used for the operation of the application. These data are saved in files with the extension yaml.
 
 Characteristics:
@@ -38,7 +42,7 @@ Characteristics:
 - Allows you to start, restart, stop and get the status of the Telk-Alert-Agent service.
 
 # Requirements
-- CentOS 8 (So far it has only been tested in this version)
+- CentOS 8 or RedHat 8 (So far it has only been tested in this version)
 - Python 3.6
 - Python Libraries
   - requests
