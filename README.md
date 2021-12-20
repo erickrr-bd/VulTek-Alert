@@ -63,7 +63,18 @@ The installer performs the following actions on the computer:
 
 # Running
 
+- Run as service:
 
+`systemctl start vultek-alert.service`
+
+- To execute manually, first you must go to the path /etc/VulTek-Alert-Suite/VulTek-Alert and execute using the following commands:
+
+`python3 VulTek_Alert.py` or `./VulTek_Alert.py`
+
+
+- To execute VulTek-Alert-Tool, first you must go to the path /etc/VulTek-Alert-Suite/VulTek-Alert-Tool and execute using the following commands:
+
+`python3 VulTek_Alert_Tool.py` or `./VulTek_Alert_Tool.py`
 
 # Commercial Support
 ![Tekium](https://github.com/unmanarc/uAuditAnalyzer2/blob/master/art/tekium_slogo.jpeg)
