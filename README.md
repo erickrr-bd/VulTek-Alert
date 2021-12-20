@@ -16,7 +16,7 @@ https://access.redhat.com/documentation/en-us/red_hat_security_data_api/1.0/html
 ## VulTek-Alert
 Application that obtains the CVE's from a previous day using the Red Hat Security Data API and sending the result to a Telegram channel.
 
-<span style="display:block;text-align:center">![VulTek-Alert](https://github.com/erickrr-bd/VulTek-Alert/blob/master/screens/screen2.jpg)</span>
+![VulTek-Alert](https://github.com/erickrr-bd/VulTek-Alert/blob/master/screens/screen2.jpg)
 
 Characteristics:
 - It runs at a time of day (configurable).
