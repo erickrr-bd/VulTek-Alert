@@ -26,15 +26,13 @@ Characteristics:
 - Generation of application logs.
 
 ## VulTek-Alert-Tool
-Telk-Alert graphical tool that allows the user to define the configuration and alert rules that will be used for the operation of the application. These data are saved in files with the extension yaml.
+VulTek-Alert auxiliary tool that allows actions on the VulTek-Alert configuration and service using a graphical interface.
 
 Characteristics:
-- Allows you to create and modify the Telk-Alert connection settings.
-- Allows you to create, modify and delete alert rules.
+- Allows you to create and modify the VulTek-Alert configuration.
+- Allows you to start, restart, stop and get the current status of the VulTek-Alert service.
 - Encrypts sensitive data such as passwords so that they are not stored in plain text.
-- Allows you to start, restart, stop and get the status of the Telk-Alert service.
-- Allows you to create and modify the Telk-Alert-Agent configuration.
-- Allows you to start, restart, stop and get the status of the Telk-Alert-Agent service.
+- Generation of application logs.
 
 # Requirements
 - CentOS 8 or RedHat 8 (So far it has only been tested in this version)
@@ -47,12 +45,17 @@ Characteristics:
   - pyyaml
 
 # Installation
-To install or update Telk-Alert, you must run the installer_telk_alert.sh executable with administrator rights. The installer will perform the following actions:
-- Copy and creation of directories and files necessary for the operation of Telk-Alert.
-- Creation of user and specific group for the operation of Telk-Alert.
-- It changes the owner of the files and directories necessary for the operation of Telk-Alert, assigning them to the user created for this purpose.
-- Creation of passphrase for the encryption and decryption of sensitive information, which is generated randomly, so it is unique for each installed Telk-Alert installation.
-- Creation of Telk-Alert and Telk-Alert-Agent services.
+To install or update VulTek-Alert you must run the script "installer_vultek_alert.sh" for this you can use any of the following commands:
+
+`./installer_vultek_alert.sh` or `sh installer_vultek_alert.sh`
+
+The installer performs the following actions on the computer:
+
+- Copy and creation of directories and files necessary for the operation of VulTek-Alert.
+- Creation of user and specific group for the operation of VulTek-Alert.
+- It changes the owner of the files and directories necessary for the operation of VulTek-Alert, assigning them to the user created for this purpose.
+- Creation of passphrase for the encryption and decryption of sensitive information, which is generated randomly, so it is unique for each installed VulTek-Alert installation.
+- Creation of VulTek-Alert service.
 
 # Running
 
