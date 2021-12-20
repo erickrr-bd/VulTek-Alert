@@ -1,4 +1,4 @@
-# VulTek-Alert v1.0
+# VulTek-Alert v3.0
 
 Author: Erick Rodríguez 
 
