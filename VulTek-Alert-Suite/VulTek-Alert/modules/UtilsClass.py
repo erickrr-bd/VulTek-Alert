@@ -8,7 +8,7 @@ from yaml import safe_load
 from base64 import b64decode
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
-from logging import getLogger, INFO, Formatter, FileHandler
+from logging import getLogger, INFO, Formatter, FileHandler, StreamHandler
 
 """
 Class that allows managing all the utilities that are used for the operation of the application.
@@ -48,8 +48,8 @@ class Utils:
 			with open(path_file_yaml, mode) as file_yaml:
 				data_file_yaml = safe_load(file_yaml)
 		except (IOError, FileNotFoundError) as exception:
+			self.createVulTekAlertLog("Error opening or reading the YAML file. For more information, see the logs.", 3)
 			self.createVulTekAlertLog(exception, 3)
-			print("\nError opening or reading the YAML file. For more information, see the logs.")
 			exit(1)
 		else:
 			return data_file_yaml
@@ -73,8 +73,8 @@ class Utils:
 		try:
 			path_final = path.join(path_main, path_dir)
 		except (OSError, TypeError) as exception:
+			self.createVulTekAlertLog("An error has occurred. For more information, see the logs.", 3)
 			self.createVulTekAlertLog(exception, 3)
-			print("\nAn error has occurred. For more information, see the logs.")
 			exit(1)
 		else:
 			return path_final
@@ -97,8 +97,8 @@ class Utils:
 			pass_key = file_key.read()
 			file_key.close()
 		except FileNotFoundError as exception:
+			self.createVulTekAlertLog("Error opening or reading the Key file. For more information, see the logs.", 3)
 			self.createVulTekAlertLog(exception, 3)
-			print("\nError opening or reading the Key file. For more information, see the logs.")
 			exit(1)
 		else:
 			return pass_key
@@ -119,8 +119,8 @@ class Utils:
 			gid = getpwnam('vultek_alert').pw_gid
 			chown(path_to_change, uid, gid)
 		except OSError as exception:
+			self.createVulTekAlertLog("Failed to change owner path. For more information, see the logs.", 3)
 			self.createVulTekAlertLog(exception, 3)
-			print("\nFailed to change owner path. For more information, see the logs.")
 			exit(1)
 
 	"""
@@ -143,8 +143,8 @@ class Utils:
 			IV = text_encrypt[:AES.block_size]
 			aes = AES.new(key, AES.MODE_CBC, IV)
 		except binascii.Error as exception:
+			self.createVulTekAlertLog("Failed to decrypt the data. For more information, see the logs.", 3)
 			self.createVulTekAlertLog(exception, 3)
-			print("\nFailed to decrypt the data. For more information, see the logs.")
 			exit(1)
 		else:
 			return unpad(aes.decrypt(text_encrypt[AES.block_size:]), AES.block_size)
@@ -161,12 +161,16 @@ class Utils:
 		name_log = "/var/log/VulTek-Alert/vultek-alert-log-" + str(date.today()) + ".log"
 		logger = getLogger("VulTek_Alert_Log")
 		logger.setLevel(INFO)
+		ch = StreamHandler()
 		fh = FileHandler(name_log)
 		if (logger.hasHandlers()):
    	 		logger.handlers.clear()
 		formatter = Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+		formatter_console = Formatter('%(levelname)s - %(message)s')
 		fh.setFormatter(formatter)
+		ch.setFormatter(formatter_console)
 		logger.addHandler(fh)
+		logger.addHandler(ch)
 		if type_log == 1:
 			logger.info(message)
 		elif type_log == 2:

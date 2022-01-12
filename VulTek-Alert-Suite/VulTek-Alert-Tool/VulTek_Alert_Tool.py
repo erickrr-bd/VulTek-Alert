@@ -3,7 +3,7 @@
 from modules.FormClass import FormDialog
 
 """
-FormDialog class object.
+Property that stores an object of the FormDialog class.
 """
 form = FormDialog()
 

@@ -175,7 +175,7 @@ class FormDialog:
 	self -- An instantiated object of the FormDialog class.
 	"""
 	def getAbout(self):
-		message = "\nCopyright@2021 Tekium. All rights reserved.\nVulTek-Alert v3.0\nAuthor: Erick Rodríguez\nEmail: erickrr.tbd93@gmail.com, erodriguez@tekium.mx\n" + "License: GPLv3\n\nApplication that obtains the daily vulnerabilities of the Red\nHat Security Data API and sends them as an alert to a Telegram\nchannel."
+		message = "\nCopyright@2022 Tekium. All rights reserved.\nVulTek-Alert v3.0\nAuthor: Erick Rodríguez\nEmail: erickrr.tbd93@gmail.com, erodriguez@tekium.mx\n" + "License: GPLv3\n\nApplication that obtains the daily vulnerabilities of the Red\nHat Security Data API and sends them as an alert to a Telegram\nchannel."
 		self.getScrollBox(message, "About")
 		self.mainMenu()
 

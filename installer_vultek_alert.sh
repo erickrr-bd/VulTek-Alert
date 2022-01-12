@@ -1,7 +1,7 @@
 #! /bin/bash
 
 clear
-echo -e "\e[96m@2021 Tekium. All rights reserved.\e[0m"
+echo -e "\e[96m@2022 Tekium. All rights reserved.\e[0m"
 echo -e '\e[96mInstaller for VulTek-Alert v3.0\e[0m'
 echo -e '\e[96mAuthor: Erick Rodríguez\e[0m'
 echo -e '\e[96mEmail: erodriguez@tekium.mx, erickrr.tbd93@gmail.com\e[0m'
@@ -85,6 +85,7 @@ elif [ $opc = "U" ] || [ $opc = "u" ]; then
 	echo -e '\e[96mStarting the VulTek-Alert update...\e[0m'
 	echo ''
 	dir=$(sudo pwd)
+	systemctl stop vultek-alert.service
 	cp -r VulTek-Alert-Suite /etc/
 	chown vultek_alert:vultek_alert -R /etc/VulTek-Alert-Suite
 	sleep 3

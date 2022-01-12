@@ -3,7 +3,7 @@
 from modules.VulTekClass import VulTek
 
 """
-VulTek class object.
+Property that stores an object of the VulTek class.
 """
 vultek = VulTek()
 

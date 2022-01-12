@@ -40,12 +40,12 @@ class VulTek:
 	"""
 	def startApplication(self):
 		try:
-			print("VulTek-Alert v3.0")
-			print("@2021 Tekium. All rights reserved.")
-			print("Author: Erick Rodriguez")
-			print("Email: erodriguez@tekium.mx, erickrr.tbd93@gmail.com")
-			print("License: GPLv3")
-			print("\nVulTek-Alert started...\n\n")
+			self.utils.createVulTekAlertLog("VulTek-Alert v3.0", 1)
+			self.utils.createVulTekAlertLog("@2022 Tekium. All rights reserved.", 1)
+			self.utils.createVulTekAlertLog("Author: Erick Rodriguez", 1)
+			self.utils.createVulTekAlertLog("Email: erodriguez@tekium.mx, erickrr.tbd93@gmail.com", 1)
+			self.utils.createVulTekAlertLog("License: GPLv3", 1)
+			self.utils.createVulTekAlertLog("VulTek-Alert started...", 1)
 			data_configuration_vultek = self.utils.readYamlFile(self.utils.getPathVulTekAlert('conf') + '/vultek_alert_conf.yaml', 'r')
 			time_to_execute = data_configuration_vultek['time_to_execute'].split(':')
 			while True:
@@ -57,7 +57,6 @@ class VulTek:
 							cve_data_json = response_http.json()
 							if len(cve_data_json) == 0:
 								self.utils.createVulTekAlertLog("No CVE's were found with the following severity: " + severity, 1)
-								print("No CVE's were found with the following severity: " + severity)
 								message_telegram = self.telegram.getNotVulnerabilityFoundMessage(severity)
 								self.telegram.sendTelegramAlert(self.utils.decryptAES(data_configuration_vultek['telegram_chat_id']).decode('utf-8'), self.utils.decryptAES(data_configuration_vultek['telegram_bot_token']).decode('utf-8'), message_telegram)
 							else:
@@ -70,13 +69,13 @@ class VulTek:
 									cvss3_scoring_vector = data_json['cvss3_scoring_vector']
 									cvss3_score = data_json['cvss3_score']
 									self.utils.createVulTekAlertLog("CVE Found: " + cve + ", severity: " + severity, 1)
-									print("CVE Found: " + cve + ", severity: " + severity)
 									message_telegram = self.telegram.getVulnerabilityMessage(cve, public_date, severity, bugzilla_description, cwe, cvss3_scoring_vector, cvss3_score)
 									self.telegram.sendTelegramAlert(self.utils.decryptAES(data_configuration_vultek['telegram_chat_id']).decode('utf-8'), self.utils.decryptAES(data_configuration_vultek['telegram_bot_token']).decode('utf-8'), message_telegram)
 						else:
-							print("Invalid response. Error getting the CVE's.")
+							self.utils.createVulTekAlertLog("Invalid response. Error getting the CVE's.", 3)
 							exit(1)
 				sleep(60)
 		except KeyError as exception:
-			print("Key Error: " + str(exception))
+			self.utils.createVulTekAlertLog("Error starting the application. For more information, see the logs.", 3)
+			self.utils.createVulTekAlertLog("Key Error: " + str(exception), 3)
 			exit(1)

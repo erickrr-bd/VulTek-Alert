@@ -3,6 +3,7 @@ from datetime import date
 from Crypto import Random
 from os import path, chown
 from hashlib import sha256
+from binascii import Error
 from Crypto.Cipher import AES
 from yaml import safe_load, safe_dump
 from base64 import b64encode, b64decode

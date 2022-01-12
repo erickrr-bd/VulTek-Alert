@@ -97,13 +97,9 @@ class Telegram:
 	def getStatusByTelegramCode(self, telegram_code):
 		if telegram_code == 200:
 			self.utils.createVulTekAlertLog("Telegram message sent.", 1)
-			print("Telegram message sent.")
 		elif telegram_code == 400:
 			self.utils.createVulTekAlertLog("Telegram message not sent. Status: Bad request.", 3)
-			print("Telegram message not sent. Status: Bad request.")
 		elif telegram_code == 401:
 			self.utils.createVulTekAlertLog("Telegram message not sent. Status: Unauthorized.", 3)
-			print("Telegram message not sent. Status: Unauthorized.")
 		elif telegram_code == 404:
 			self.utils.createVulTekAlertLog("Telegram message not sent. Status: Not found.", 3)
-			print("Telegram message not sent. Status: Not found.")
