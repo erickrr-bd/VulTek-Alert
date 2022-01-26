@@ -74,11 +74,11 @@ The installer performs the following actions on the computer:
 
 ## VulTek-Alert-Tool
 
-- To execute VulTek-Alert-Tool, first you must go to the path /etc/VulTek-Alert-Suite/VulTek-Alert-Tool and execute using the following commands:
+- The first way to run VulTek-Alert-Tool, you must go to the path /etc/VulTek-Alert-Suite/VulTek-Alert-Tool and execute using the following commands:
 
 `python3 VulTek_Alert_Tool.py` or `./VulTek_Alert_Tool.py`
 
-- Upon installation of VulTek-Alert an alias for VulTek-Alert-Tool is created. To use it, you must first execute the following command once the installation is complete:
+- The second way to run VulTek-Alert-Tool is upon installation of VulTek-Alert an alias for VulTek-Alert-Tool is created. To use it, you must first execute the following command once the installation is complete:
 
 `source ~/.bashrc`
 
