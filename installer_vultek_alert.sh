@@ -74,28 +74,43 @@ EOF
 	chown vultek_alert:vultek_alert -R /etc/VulTek-Alert-Suite
 	chown vultek_alert:vultek_alert -R /var/log/VulTek-Alert
 	echo -e '\e[96mVulTek-Alert installed on the computer...\e[0m'
-	sleep 3	
+	sleep 3
+	echo ''
+	echo -e '\e[96mCreating aliases for VulTek-Alert-Tool...\e[0m'
+	echo "alias VulTek-Alert-Tool='/etc/VulTek-Alert-Suite/VulTek-Alert-Tool/VulTek_Alert_Tool.py'" >> ~/.bashrc
+	sleep 3
+	echo ''
+	echo -e '\e[96mAliases created...\e[0m'
 	echo ''
 	echo -e '\e[96mStarting VulTek-Alert-Tool...\e[0m'
-	sleep 5
+	sleep 3
 	cd /etc/VulTek-Alert-Suite/VulTek-Alert-Tool
 	python3 VulTek_Alert_Tool.py
 elif [ $opc = "U" ] || [ $opc = "u" ]; then
 	echo ''
 	echo -e '\e[96mStarting the VulTek-Alert update...\e[0m'
 	echo ''
-	dir=$(sudo pwd)
+	echo -e '\e[96mStopping the vultek-alert.service daemon...\e[0m'
 	systemctl stop vultek-alert.service
+	echo ''
+	echo -e '\e[96mUpdating application components (encryption key and configuration will remain intact)...\e[0m'
+	dir=$(sudo pwd)
 	cp -r VulTek-Alert-Suite /etc/
 	chown vultek_alert:vultek_alert -R /etc/VulTek-Alert-Suite
-	echo "alias VulTek-Alert-Tool='/etc/VulTek-Alert-Suite/VulTek-Alert-Tool/VulTek_Alert_Tool.py'" >> ~/.bashrc
-	source ~/.bashrc
 	sleep 3
-	echo -e '\e[96mVulTek-Alert updated...\e[0m'
+	echo ''
+	echo -e '\e[96mUpdate finished...\e[0m'
+	echo ''
+	echo -e '\e[96mCreating aliases for VulTek-Alert-Tool...\e[0m'
+	echo "alias VulTek-Alert-Tool='/etc/VulTek-Alert-Suite/VulTek-Alert-Tool/VulTek_Alert_Tool.py'" >> ~/.bashrc
+	echo ''
+	echo -e '\e[96mAliases created...\e[0m'
+	sleep 3
 	echo ''
 	echo -e '\e[96mStarting VulTek-Alert-Tool...\e[0m'
-	sleep 5
-	VulTek-Alert-Tool
+	sleep 3
+	cd /etc/VulTek-Alert-Suite/VulTek-Alert-Tool
+	python3 VulTek_Alert_Tool.py
 else
 	clear
 	exit
