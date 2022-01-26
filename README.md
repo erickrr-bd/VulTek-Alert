@@ -62,6 +62,7 @@ The installer performs the following actions on the computer:
 - Creation of VulTek-Alert service.
 
 # Running
+## VulTek-Alert
 
 - Run as service:
 
@@ -71,10 +72,19 @@ The installer performs the following actions on the computer:
 
 `python3 VulTek_Alert.py` or `./VulTek_Alert.py`
 
+## VulTek-Alert-Tool
 
 - To execute VulTek-Alert-Tool, first you must go to the path /etc/VulTek-Alert-Suite/VulTek-Alert-Tool and execute using the following commands:
 
 `python3 VulTek_Alert_Tool.py` or `./VulTek_Alert_Tool.py`
+
+- Upon installation of VulTek-Alert an alias for VulTek-Alert-Tool is created. To use it, you must first execute the following command once the installation is complete:
+
+`source ~/.bashrc`
+
+Later, VulTek-Alert-Tool can be executed only by using the following command:
+
+`VulTek-Alert-Tool`
 
 # Commercial Support
 ![Tekium](https://github.com/unmanarc/uAuditAnalyzer2/blob/master/art/tekium_slogo.jpeg)
