@@ -65,9 +65,18 @@ class VulTek:
 									public_date = data_json['public_date']
 									severity = data_json['severity']
 									bugzilla_description = data_json['bugzilla_description']
-									cwe = data_json['CWE']
-									cvss3_scoring_vector = data_json['cvss3_scoring_vector']
-									cvss3_score = data_json['cvss3_score']
+									if "CWE" in data_json:
+										cwe = data_json['CWE']
+									else:
+										cwe = "None"
+									if "cvss3_scoring_vector" in data_json:
+										cvss3_scoring_vector = data_json['cvss3_scoring_vector']
+									else:
+										cvss3_scoring_vector = "None"
+									if "cvss3_score" in data_json:
+										cvss3_score = data_json['cvss3_score']
+									else:
+										cvss3_score = "None"
 									self.utils.createVulTekAlertLog("CVE Found: " + cve + ", severity: " + severity, 1)
 									message_telegram = self.telegram.getVulnerabilityMessage(cve, public_date, severity, bugzilla_description, cwe, cvss3_scoring_vector, cvss3_score)
 									self.telegram.sendTelegramAlert(self.utils.decryptAES(data_configuration_vultek['telegram_chat_id']).decode('utf-8'), self.utils.decryptAES(data_configuration_vultek['telegram_bot_token']).decode('utf-8'), message_telegram)

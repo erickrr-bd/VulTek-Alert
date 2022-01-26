@@ -88,13 +88,14 @@ elif [ $opc = "U" ] || [ $opc = "u" ]; then
 	systemctl stop vultek-alert.service
 	cp -r VulTek-Alert-Suite /etc/
 	chown vultek_alert:vultek_alert -R /etc/VulTek-Alert-Suite
+	echo "alias VulTek-Alert-Tool='/etc/VulTek-Alert-Suite/VulTek-Alert-Tool/VulTek_Alert_Tool.py'" >> ~/.bashrc
+	source ~/.bashrc
 	sleep 3
 	echo -e '\e[96mVulTek-Alert updated...\e[0m'
 	echo ''
 	echo -e '\e[96mStarting VulTek-Alert-Tool...\e[0m'
 	sleep 5
-	cd /etc/VulTek-Alert-Suite/VulTek-Alert-Tool
-	python3 VulTek_Alert_Tool.py
+	VulTek-Alert-Tool
 else
 	clear
 	exit
