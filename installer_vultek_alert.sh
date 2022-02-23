@@ -99,6 +99,10 @@ elif [ $opc = "U" ] || [ $opc = "u" ]; then
 	chown vultek_alert:vultek_alert -R /etc/VulTek-Alert-Suite
 	sleep 3
 	echo ''
+	echo -e '\e[96mDeleting the current VulTek-Alert configuration file...\e[0m'
+	rm -rf /etc/VulTek-Alert-Suite/VulTek-Alert/conf/vultek_alert_conf.yaml
+	sleep 3
+	echo ''
 	echo -e '\e[96mUpdate finished...\e[0m'
 	echo ''
 	echo -e '\e[96mCreating aliases for VulTek-Alert-Tool...\e[0m'

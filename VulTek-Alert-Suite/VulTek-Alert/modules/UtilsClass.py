@@ -11,11 +11,11 @@ from Crypto.Util.Padding import unpad
 from logging import getLogger, INFO, Formatter, FileHandler, StreamHandler
 
 """
-Class that allows managing all the utilities that are used for the operation of the application.
+Class that manages the utilities used for the operation of VulTek-Alert.
 """
 class Utils:
 	"""
-	Property that stores the passphrase for the process of encrypting/decrypting information.
+	Variable that stores the passphrase for the process of encrypting/decrypting information.
 	"""
 	passphrase = None
 

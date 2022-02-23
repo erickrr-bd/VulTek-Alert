@@ -3,12 +3,12 @@
 from modules.VulTekClass import VulTek
 
 """
-Property that stores an object of the VulTek class.
+Variable that stores an object of the VulTek class.
 """
 vultek = VulTek()
 
 """
-Main function of the application
+Main function of the application.
 """
 if __name__ == "__main__":	
 		vultek.startApplication()

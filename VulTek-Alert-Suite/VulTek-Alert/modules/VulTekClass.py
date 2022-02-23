@@ -6,16 +6,16 @@ from modules.UtilsClass import Utils
 from modules.TelegramClass import Telegram
 
 """
-Class that manages everything related to the operation of VulTek-Alert.
+Class that manages the operation of VulTek-Alert.
 """
 class VulTek:
 	"""
-	Property that stores an object of the Utils class.
+	Variable that stores an object of the Utils class.
 	"""
 	utils = None
 
 	"""
-	Property that stores an object of the Telegram class.
+	Variable that stores an object of the Telegram class.
 	"""
 	telegram = None
 
@@ -36,7 +36,7 @@ class VulTek:
 	self -- An instantiated object of the VulTek class.
 
 	Exceptions:
-	KeyError -- A Python KeyError exception is what is raised when you try to access a key that isn’t in a dictionary (dict). 
+	KeyError -- A Python KeyError exception is what is raised when you try to access a key that isn’t in a dictionary (dict).
 	"""
 	def startApplication(self):
 		try:
@@ -52,7 +52,7 @@ class VulTek:
 				now = datetime.now()
 				if (now.hour == int(time_to_execute[0]) and now.minute == int(time_to_execute[1])):
 					for severity in data_configuration_vultek['options_level_vulnerabilities']:
-						response_http = get("https://access.redhat.com/hydra/rest/securitydata/cve.json?created_days_ago=3&severity=" + severity)
+						response_http = get("https://access.redhat.com/hydra/rest/securitydata/cve.json?created_days_ago=" + str(data_configuration_vultek['range_days']) + "&severity=" + severity)
 						if response_http.status_code == 200:
 							cve_data_json = response_http.json()
 							if len(cve_data_json) == 0:

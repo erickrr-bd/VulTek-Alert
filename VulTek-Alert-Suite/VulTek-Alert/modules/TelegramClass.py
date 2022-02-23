@@ -5,11 +5,11 @@ from urllib.parse import urlencode
 from modules.UtilsClass import Utils
 
 """
-Class that allows you to manage the sending of alerts through Telegram.
+Class that manages the sending of alerts via Telegram.
 """
 class Telegram:
 	"""
-	Property that stores an object of type Utils.
+	Variable that stores an object of type Utils.
 	"""
 	utils = None
 
