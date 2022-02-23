@@ -1,21 +1,22 @@
 from os import path
 from sys import exit
 from dialog import Dialog
+from re import compile as re_compile
 from modules.UtilsClass import Utils
 from modules.ServiceClass import Service
 from modules.ConfigurationClass import Configuration
 
 """
-Class that allows managing the graphical interfaces of VulTek-Alert-Tool.
+Class that manages the graphical interfaces of VulTek-Alert-Tool.
 """
 class FormDialog:
 	"""
-	Property that stores an object of class Dialog.
+	Variable that stores an object of the Dialog class.
 	"""
 	d = None
 
 	"""
-	Property that stores an object of the Utils class.
+	Variable that stores an object of the Utils class.
 	"""
 	utils = None
 
@@ -46,7 +47,7 @@ class FormDialog:
 		code_menu, tag_menu = self.d.menu(text = text, choices = options, title = title)
 		if code_menu == self.d.OK:
 			return tag_menu
-		if code_menu == self.d.CANCEL:
+		elif code_menu == self.d.CANCEL:
 			self.mainMenu()
 
 	"""
@@ -118,6 +119,29 @@ class FormDialog:
 				self.mainMenu()
 
 	"""
+	Method that generates the interface for entering integer data.
+
+	Parameters:
+	self -- An instantiated object of the FormDialog class.
+	text -- Text displayed on the interface.
+	initial_value -- Default value shown on the interface.
+
+	Return:
+	tag_num -- Number entered.
+	"""
+	def getDataNumber(self, text, initial_value):
+		number_reg_exp = re_compile(r'^\d+$')
+		while True:
+			code_inputbox, tag_inputbox = self.d.inputbox(text = text, height = 10, width = 50, init = initial_value)
+			if code_inputbox == self.d.OK:
+				if(not self.utils.validateRegularExpression(number_reg_exp, tag_inputbox)):
+					self.d.msgbox(text = "\nInvalid data entered. Required value (integer number).", height = 8, width = 50, title = "Error Message")
+				else:
+					return tag_inputbox
+			elif code_inputbox == self.d.CANCEL:
+				self.mainMenu()
+
+	"""
 	Method that generates an interface with scroll box.
 
 	Parameters:
@@ -144,7 +168,7 @@ class FormDialog:
 		code_timebox, tag_timebox = self.d.timebox(text = text, height = 5, width = 30, hour = hour, minute = minutes, second = 00)
 		if code_timebox == self.d.OK:
 			return tag_timebox
-		if code_timebox == self.d.CANCEL:
+		elif code_timebox == self.d.CANCEL:
 			self.mainMenu()
 
 	"""

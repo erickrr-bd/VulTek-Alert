@@ -2,26 +2,26 @@ from os import path
 from modules.UtilsClass import Utils
 
 """
-Class that allows managing everything related to the VulTek-Alert configuration.
+Class that manages the configuration of VulTek-Alert.
 """
 class Configuration:
 	"""
-	Property that stores an object of the Utils class.
+	Variable that stores an object of the Utils class.
 	"""
 	utils = None
 
 	"""
-	Property that stores an object of the FormDialog class.
+	Variable that stores an object of the FormDialog class.
 	"""
 	form_dialog = None
 
 	"""
-	Property that stores the path of the VulTek-Alert configuration file.
+	Variable that stores the path of the VulTek-Alert configuration file.
 	"""
 	path_configuration_file = None
 
 	"""
-	Property that contains the options for the alert rule level.
+	Variable that stores a list with the CVE's criticality level options.
 	"""
 	list_level_vulnerabilities = [["low", "Low level vulnerability", 0],
 								  ["moderate", "Medium level vulnerability", 0],
@@ -41,17 +41,19 @@ class Configuration:
 		self.path_configuration_file = self.utils.getPathVulTekAlert('conf') + "/vultek_alert_conf.yaml"
 
 	"""
-	Method that requests the data required to create the configuration file.
+	Method that creates the VulTek-Alert configuration file.
 
 	Parameters:
 	self -- An instantiated object of the Configuration class.
 	"""
 	def createConfiguration(self):
 		data_configuration = []
-		time_to_execute = self.form_dialog.getDataTime("Select the time of day the vulnerabilities will be obtained:", -1, -1)
+		time_to_execute = self.form_dialog.getDataTime("Select the time of day that VulTek-Alert will search for CVE's:", -1, -1)
 		data_configuration.append(str(time_to_execute[0]) + ':' + str(time_to_execute[1]))
-		options_level_vulnerabilities = self.form_dialog.getDataCheckList("Select one or more options:", self.list_level_vulnerabilities, "Vulnerability Level")
+		options_level_vulnerabilities = self.form_dialog.getDataCheckList("Select one or more options:", self.list_level_vulnerabilities, "Criticality Levels")
 		data_configuration.append(options_level_vulnerabilities)
+		range_days = self.form_dialog.getDataNumber("Enter the range of days in which the CVEs are obtained:", "1")
+		data_configuration.append(range_days)
 		telegram_bot_token = self.utils.encryptAES(self.form_dialog.getDataInputText("Enter the Telegram bot token:", "751988420:AAHrzn7RXWxVQQNha0tQUzyouE5lUcPde1g"))
 		data_configuration.append(telegram_bot_token.decode('utf-8'))
 		telegram_chat_id = self.utils.encryptAES(self.form_dialog.getDataInputText("Enter the Telegram channel identifier:", "-1002365478941"))
@@ -65,22 +67,24 @@ class Configuration:
 		self.form_dialog.mainMenu()
 
 	"""
-	Method that allows modifying one or more values of the configuration file.
+	Method that updates the data stored in the VulTek-Alert configuration file.
 
 	Parameters:
 	self -- An instantiated object of the Configuration class.
 
 	Exceptions:
-	KeyError -- A Python KeyError exception is what is raised when you try to access a key that isn’t in a dictionary (dict). 	
+	KeyError -- A Python KeyError exception is what is raised when you try to access a key that isn’t in a dictionary (dict).
 	"""
 	def updateConfiguration(self):
 		list_fields_update = [("Time", "Time in which it runs on the day", 0),
 							  ("Level", "Vulnerability level", 0),
+							  ("Days", "Range of days", 0),
 							  ("Bot Token", "Telegram Bot Token", 0),
 							  ("Chat ID", "Telegram channel identifier", 0)]
 
 		flag_time_execution = 0
 		flag_level_vulnerabilities = 0
+		flag_range_days = 0
 		flag_telegram_bot_token = 0
 		flag_telegram_chat_id = 0
 		options_fields_update = self.form_dialog.getDataCheckList("Select one or more options:", list_fields_update, "Configuration Fields")
@@ -89,6 +93,8 @@ class Configuration:
 				flag_time_execution = 1
 			elif option == "Level":
 				flag_level_vulnerabilities = 1
+			elif option == "Days":
+				flag_range_days = 1
 			elif option == "Bot Token":
 				flag_telegram_bot_token = 1
 			elif option == "Chat ID":
@@ -98,7 +104,7 @@ class Configuration:
 			data_configuration = self.utils.readYamlFile(self.path_configuration_file, 'rU')
 			if flag_time_execution == 1:
 				time_to_execute_split = data_configuration['time_to_execute'].split(':')
-				time_to_execute = self.form_dialog.getDataTime("Select the time of day the vulnerabilities will be obtained:", str(time_to_execute_split[0]), str(time_to_execute_split[1]))
+				time_to_execute = self.form_dialog.getDataTime("Select the time of day that VulTek-Alert will search for CVE's:", str(time_to_execute_split[0]), str(time_to_execute_split[1]))
 				data_configuration['time_to_execute'] = str(time_to_execute[0]) + ':' + str(time_to_execute[1])
 			if flag_level_vulnerabilities == 1:
 				if "low" in data_configuration['options_level_vulnerabilities']:
@@ -109,8 +115,11 @@ class Configuration:
 					self.list_level_vulnerabilities[2][2] = 1
 				if "critical" in data_configuration['options_level_vulnerabilities']:
 					self.list_level_vulnerabilities[3][2] = 1
-				options_level_vulnerabilities = self.form_dialog.getDataCheckList("Select one or more options:", self.list_level_vulnerabilities, "Vulnerability Level")
+				options_level_vulnerabilities = self.form_dialog.getDataCheckList("Select one or more options:", self.list_level_vulnerabilities, "Criticality Levels")
 				data_configuration['options_level_vulnerabilities'] = options_level_vulnerabilities
+			if flag_range_days == 1:
+				range_days = self.form_dialog.getDataNumber("Enter the range of days in which the CVEs are obtained:", str(data_configuration['range_days']))
+				data_configuration['range_days'] = int(range_days)
 			if flag_telegram_bot_token == 1:
 				telegram_bot_token = self.utils.encryptAES(self.form_dialog.getDataInputText("Enter the Telegram bot token:", self.utils.decryptAES(data_configuration['telegram_bot_token']).decode('utf-8')))
 				data_configuration['telegram_bot_token'] = telegram_bot_token.decode('utf-8')
@@ -130,16 +139,17 @@ class Configuration:
 			self.form_dialog.mainMenu()
 
 	"""
-	Method that creates the YAML file corresponding to the configuration file.
+	Method that creates the YAML file corresponding to the VulTek-Alert configuration file.
 
 	Parameters:
 	self -- An instantiated object of the Configuration class.
-	data_configuration -- Object that contains the data that will be stored in the configuration file.
+	data_configuration -- Parameter that contains the list with the data that will be stored in the configuration file.
 	"""
 	def createConfigurationFile(self, data_configuration):
 		data_configuration_json = { 'time_to_execute' : data_configuration[0],
 									'options_level_vulnerabilities' : data_configuration[1],
-									'telegram_bot_token' : data_configuration[2],
-									'telegram_chat_id' : data_configuration[3] }
+									'range_days' : int(data_configuration[2]),
+									'telegram_bot_token' : data_configuration[3],
+									'telegram_chat_id' : data_configuration[4] }
 
 		self.utils.createYamlFile(data_configuration_json, self.path_configuration_file, 'w')

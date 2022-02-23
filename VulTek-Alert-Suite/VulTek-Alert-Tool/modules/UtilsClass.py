@@ -11,16 +11,16 @@ from Crypto.Util.Padding import pad, unpad
 from logging import getLogger, INFO, Formatter, FileHandler
 
 """
-Class that allows managing all the utilities that are used for the operation of the application.
+Class that manages the utilities used for the operation of VulTek-Alert-Tool.
 """
 class Utils:
 	"""
-	Property that stores the passphrase for the process of encrypting/decrypting information.
+	Variable that stores the passphrase for the process of encrypting/decrypting information.
 	"""
 	passphrase = None
 
 	"""
-	Property that stores an object of the FormDialog class.
+	Variable that stores an object of the FormDialog class.
 	"""
 	form_dialog = None
 
@@ -227,7 +227,7 @@ class Utils:
 	Character string with decrypted text.
 
 	Exceptions:
-	binascii.Error -- Is raised if were incorrectly padded or if there are non-alphabet characters present in the string. 
+	Error -- Is raised if were incorrectly padded or if there are non-alphabet characters present in the string. 
 	"""
 	def decryptAES(self, text_encrypt):
 		try:
@@ -235,7 +235,7 @@ class Utils:
 			text_encrypt = b64decode(text_encrypt)
 			IV = text_encrypt[:AES.block_size]
 			aes = AES.new(key, AES.MODE_CBC, IV)
-		except binascii.Error as exception:
+		except Error as exception:
 			self.createVulTekAlertToolLog(exception, 3)
 			self.form_dialog.d.msgbox(text = "\nFailed to decrypt the data. For more information, see the logs.", height = 8, width = 50, title = "Error Message")
 			self.form_dialog.mainMenu()

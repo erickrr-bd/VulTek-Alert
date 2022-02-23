@@ -52,7 +52,7 @@ class VulTek:
 				now = datetime.now()
 				if (now.hour == int(time_to_execute[0]) and now.minute == int(time_to_execute[1])):
 					for severity in data_configuration_vultek['options_level_vulnerabilities']:
-						response_http = get("https://access.redhat.com/hydra/rest/securitydata/cve.json?created_days_ago=1&severity=" + severity)
+						response_http = get("https://access.redhat.com/hydra/rest/securitydata/cve.json?created_days_ago=3&severity=" + severity)
 						if response_http.status_code == 200:
 							cve_data_json = response_http.json()
 							if len(cve_data_json) == 0:

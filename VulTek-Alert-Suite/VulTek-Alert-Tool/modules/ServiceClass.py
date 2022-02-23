@@ -3,16 +3,16 @@ from os import system, path, remove
 from modules.UtilsClass import Utils
 
 """
-Class that allows you to manage everything related to the Telk-Alert service.
+Class that manages the VulTek-Alert service or daemon.
 """
 class Service:
 	"""
-	Property that stores an object of the Utils class.
+	Variable that stores an object of the Utils class.
 	"""
 	utils = None
 
 	"""
-	Property that stores an object of the FormDialog class.
+	Variable that stores an object of the FormDialog class.
 	"""
 	form_dialog = None
 
