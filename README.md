@@ -6,7 +6,11 @@ Email: erodriguez@tekium.mx, erickrr.tbd93@gmail.com
 
 License: GPLv3
 
-VulTek-Alert is an application that obtains the CVE's of a certain level or levels (configurable) of the Red Hat Security Data API and sends the results obtained to a Telegram channel. In order to be aware of the vulnerabilities that affect Red Hat systems and thus take action in a timely manner.
+VulTek-Alert was born from the need to have a tool that notifies in a timely manner of the latest published vulnerabilities found in Red Hat systems.
+
+To do this, VulTek-Alert makes use of the Red Hat Security Data API, where it performs a query to obtain said CVE's for later sending to a Telegram channel.
+
+This with the purpose of being able to take timely actions to mitigate said vulnerabilities that could affect the infrastructure of an organization that occupies Red Hat systems.
 
 For more information:
 
@@ -14,33 +18,36 @@ https://access.redhat.com/documentation/en-us/red_hat_security_data_api/1.0/html
 
 # Applications
 ## VulTek-Alert
-Application that obtains the CVE's from a previous day using the Red Hat Security Data API and sending the result to a Telegram channel.
+Application that obtains the CVE's published in the Red Hat Security Data API in a range of days, and sends alerts via Telegram about them.
 
 ![VulTek-Alert](https://github.com/erickrr-bd/VulTek-Alert/blob/master/screens/screen2.jpg)
 
 Characteristics:
-- It runs at a time of day (configurable).
-- It obtains the CVE's for 24 hours from the moment it is executed.
-- It obtains the CVE's only of a certain level or levels of criticality (configurable).
-- Send the results to a certain Telegram channel (configurable).
-- It has the option to run as a service or daemon.
-- It runs with a user created during the installation process for that purpose.
-- Generation of application logs.
+- Obtaining the CVE's is done at one hour of the day. This is configurable.
+- Obtain CVE's in a range of days (starting from the current day). This is configurable.
+- Obtains the CVE's of certain levels of criticality (low, moderate, important and critical). This is configurable.
+- Send the CVE's found to a certain Telegram channel as an alert. This is configurable.
+- If it does not find CVE's during the established range of days, it sends an alert to the Telegram channel mentioning that it did not find CVE's.
+- It can be run as a service or daemon.
+- When running as a service or daemon, it is run using the "vultek_alert" user. This for security purposes.
+- Creation of application logs (in the path /var/log/VulTek-Alert).
 
 ## VulTek-Alert-Tool
-VulTek-Alert auxiliary tool that allows actions on the VulTek-Alert configuration and service using a graphical interface.
+Auxiliary graphical application for managing the configuration of the application as well as it's service or daemon.
 
 ![VulTek-Alert-Tool](https://github.com/erickrr-bd/VulTek-Alert/blob/master/screens/screen1.jpg)
 
 Characteristics:
-- Allows you to create and modify the VulTek-Alert configuration.
-- Allows you to start, restart, stop and get the current status of the VulTek-Alert service.
-- Encrypts sensitive data such as passwords so that they are not stored in plain text.
-- Generation of application logs.
+- Use of "dialog" for the use of graphical interfaces in the application.
+- Manages the VulTek-Alert configuration (creation and modification).
+- Manages the operations on the VulTek-Alert daemon or service (start, restart, stop and current status).
+- Sensitive information is stored encrypted in YAML files.
+- Creation of application logs (in the path /var/log/VulTek-Alert).
 
 # Requirements
 - CentOS 8 or RedHat 8 (So far it has only been tested in this version)
 - Python 3.6
+- Internet connection (specifically to the Telegram and Red Hat API).
 - Python Libraries
   - requests
   - pycurl
@@ -56,10 +63,10 @@ To install or update VulTek-Alert you must run the script "installer_vultek_aler
 The installer performs the following actions on the computer:
 
 - Copy and creation of directories and files necessary for the operation of VulTek-Alert.
-- Creation of user and specific group for the operation of VulTek-Alert.
-- It changes the owner of the files and directories necessary for the operation of VulTek-Alert, assigning them to the user created for this purpose.
-- Creation of passphrase for the encryption and decryption of sensitive information, which is generated randomly, so it is unique for each installed VulTek-Alert installation.
-- Creation of VulTek-Alert service.
+- Creation of the user and group "vultek_alert", which is used only for the operation of the application.
+- Assignment of owner to the user "vultek_alert" of the application components for their correct operation.
+- Random creation of the passphrase for the encryption/decryption process of sensitive information. Therefore, this is unique to each VulTek-Alert implementation.
+- Creation of the VulTek-Alert service or daemon.
 
 # Running
 ## VulTek-Alert
