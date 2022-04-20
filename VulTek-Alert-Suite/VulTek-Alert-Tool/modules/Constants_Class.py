@@ -71,6 +71,7 @@ class Constants:
 				            ("4", "Service Status")]
 
 	"""
+	Options that show the level of criticality of the vulnerabilities.
 	"""
 	OPTIONS_LEVEL_VULNERABILITIES = [["low", "Low level vulnerability", 0],
 								     ["moderate", "Medium level vulnerability", 0],
