@@ -2,7 +2,7 @@
 
 clear
 echo -e "\e[96m@2022 Tekium. All rights reserved.\e[0m"
-echo -e '\e[96mInstaller for VulTek-Alert v3.0\e[0m'
+echo -e '\e[96mInstaller for VulTek-Alert v3.1\e[0m'
 echo -e '\e[96mAuthor: Erick Rodríguez\e[0m'
 echo -e '\e[96mEmail: erodriguez@tekium.mx, erickrr.tbd93@gmail.com\e[0m'
 echo -e '\e[96mLicense: GPLv3\e[0m'
@@ -43,15 +43,14 @@ if [ $opc = "I" ] || [ $opc = "i" ]; then
 	echo -e '\e[96mUser and group created...\e[0m'
 	sleep 3
 	echo ''
-	echo -e '\e[96mCreating the necessary services for VulTek-Alert...\e[0m'
+	echo -e '\e[96mCreating the daemon for VulTek-Alert...\e[0m'
 	dir=$(sudo pwd)
 	cd $dir
 	cp vultek-alert.service /etc/systemd/system/
 	systemctl daemon-reload
-	echo ''
 	systemctl enable vultek-alert.service
 	echo ''
-	echo -e '\e[96mCreated services...\e[0m'
+	echo -e '\e[96mDemon created...\e[0m'
 	sleep 3
 	echo ''
 	echo -e '\e[96mCopying and creating the required directories for VulTek-Alert...\e[0m'

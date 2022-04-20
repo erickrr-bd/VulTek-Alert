@@ -1,15 +1,15 @@
 #! /usr/bin/env python3
 
-from modules.FormClass import FormDialog
+from modules.VulTek_Alert_Tool_Class import VulTekAlertTool
 
 """
-Property that stores an object of the FormDialog class.
+Attribute that stores an object of the VulTekAlertTool class.
 """
-form = FormDialog()
+vultek_alert_tool = VulTekAlertTool()
 
 """
 Main function of the application
 """
 if __name__ == "__main__":	
 	while True:
-		form.mainMenu()
+		vultek_alert_tool.mainMenu()
