@@ -55,7 +55,7 @@ class VulTekAlertTool:
 		elif option == 2:
 			self.__serviceMenu()
 		elif option == 3:
-			print("Hola")
+			self.__showApplicationAbout()
 		elif option == 4:
 			exit(1)
 
@@ -90,3 +90,11 @@ class VulTekAlertTool:
 			option_configuration_true = self.__dialog.createRadioListDialog("Select a option:", 8, 50, self.__constants.OPTIONS_CONFIGURATION_TRUE, "Configuration Options")
 			if option_configuration_true == "Modify":
 				configuration.modifyConfiguration()
+
+
+	def __showApplicationAbout(self):
+		"""
+		Method that shows the "About" of the application.
+		"""
+		message_to_show = "\nCopyright@2022 Tekium. All rights reserved.\nVulTek-Alert v3.1\nAuthor: Erick Rodriguez\nEmail: erickrr.tbd93@gmail.com, erodriguez@tekium.mx\n" + "License: GPLv3\n\nApplication that searches for CVE's of certain levels of\ncriticality and if found, sends them in the form of an alert via\nTelegram."
+		self.__dialog.createScrollBoxDialog(message_to_show, 15, 70, "About")
