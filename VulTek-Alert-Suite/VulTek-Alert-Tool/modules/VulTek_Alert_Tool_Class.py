@@ -47,10 +47,8 @@ class VulTekAlertTool:
 		if not path.exists(self.__constants.PATH_FILE_CONFIGURATION):
 			option_configuration_false = self.__dialog.createRadioListDialog("Select a option:", 8, 50, self.__constants.OPTIONS_CONFIGURATION_FALSE, "Configuration Options")
 			if option_configuration_false == "Create":
-				print("Crear")
 				configuration.createConfiguration()
 		else:
 			option_configuration_true = self.__dialog.createRadioListDialog("Select a option:", 8, 50, self.__constants.OPTIONS_CONFIGURATION_TRUE, "Configuration Options")
 			if option_configuration_true == "Modify":
-				print("Modificar")
-				#configuration.modifyConfiguration()
+				configuration.modifyConfiguration()

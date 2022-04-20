@@ -53,33 +53,33 @@ if [ $opc = "I" ] || [ $opc = "i" ]; then
 	echo -e '\e[96mDemon created...\e[0m'
 	sleep 3
 	echo ''
-	echo -e '\e[96mCopying and creating the required directories for VulTek-Alert...\e[0m'
+	echo -e '\e[96mCopying and creating the necessary files and directories...\e[0m'
 	echo ''
 	cp -r VulTek-Alert-Suite /etc/
-	mkdir /etc/VulTek-Alert-Suite/VulTek-Alert/conf
+	mkdir /etc/VulTek-Alert-Suite/VulTek-Alert/configuration
 	mkdir /var/log/VulTek-Alert
-	echo -e '\e[96mDirectories copied and created...\e[0m'
+	chown vultek_alert:vultek_alert -R /etc/VulTek-Alert-Suite
+	chown vultek_alert:vultek_alert -R /var/log/VulTek-Alert
+	echo -e '\e[96mFiles and directories created...\e[0m'
 	sleep 3
 	echo ''
 	echo -e '\e[96mCreating passphrase...\e[0m'
-	passphrase=$(cat /dev/random | tr -dc '[:alpha:]' | head -c 30; echo)
-	cat << EOF > /etc/VulTek-Alert-Suite/VulTek-Alert/conf/key 
+	passphrase=$(cat /dev/urandom | head -n 30 | md5sum | head -c 30)
+	cat << EOF > /etc/VulTek-Alert-Suite/VulTek-Alert/configuration/key 
 $passphrase
 EOF
 	echo ''
 	echo -e '\e[96mPassphrase created...\e[0m'
 	sleep 3
 	echo ''
-	chown vultek_alert:vultek_alert -R /etc/VulTek-Alert-Suite
-	chown vultek_alert:vultek_alert -R /var/log/VulTek-Alert
-	echo -e '\e[96mVulTek-Alert installed on the computer...\e[0m'
-	sleep 3
-	echo ''
 	echo -e '\e[96mCreating aliases for VulTek-Alert-Tool...\e[0m'
-	echo "alias VulTek-Alert-Tool='/etc/VulTek-Alert-Suite/VulTek-Alert-Tool/VulTek_Alert_Tool.py'" >> ~/.bashrc
+	alias VulTek-Alert-Tool='/etc/VulTek-Alert-Suite/VulTek-Alert-Tool/VulTek_Alert_Tool.py'
 	sleep 3
 	echo ''
 	echo -e '\e[96mAliases created...\e[0m'
+	echo ''
+	echo -e '\e[96mVulTek-Alert has been installed...\e[0m'
+	sleep 3	
 	echo ''
 	echo -e '\e[96mStarting VulTek-Alert-Tool...\e[0m'
 	sleep 3

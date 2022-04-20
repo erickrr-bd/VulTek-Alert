@@ -56,13 +56,11 @@ class Constants:
 	OPTIONS_CONFIGURATION_TRUE = [("Modify", "Modify the configuration file", 0)]
 
 	"""
-	Options that are shown when a value is going to be modified in the Inv-Alert configuration.
+	Options that are shown when a value is going to be modified in the VulTek-Alert configuration.
 	"""
-	OPTIONS_FIELDS_UPDATE = [("Version", "ElasticSearch Version", 0),
-							 ("Host", "ElasticSearch Host", 0),
-							 ("Port", "ElasticSearch Port", 0),
-							 ("SSL/TLS", "Enable or disable SSL/TLS connection", 0),
-							 ("HTTP Authentication", "Enable or disable Http authentication", 0)]
+	OPTIONS_FIELDS_UPDATE = [("Level", "Vulnerability level", 0),
+							 ("Bot Token", "Telegram Bot Token", 0),
+							 ("Chat ID", "Telegram channel identifier", 0)]
 
 	"""
 	Options displayed in the service menu.
