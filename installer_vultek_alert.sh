@@ -57,6 +57,7 @@ if [ $opc = "I" ] || [ $opc = "i" ]; then
 	echo ''
 	cp -r VulTek-Alert-Suite /etc/
 	mkdir /etc/VulTek-Alert-Suite/VulTek-Alert/configuration
+	mkdir /etc/VulTek-Alert-Suite/VulTek-Alert/database
 	mkdir /var/log/VulTek-Alert
 	chown vultek_alert:vultek_alert -R /etc/VulTek-Alert-Suite
 	chown vultek_alert:vultek_alert -R /var/log/VulTek-Alert
@@ -90,25 +91,34 @@ elif [ $opc = "U" ] || [ $opc = "u" ]; then
 	echo -e '\e[96mStarting the VulTek-Alert update...\e[0m'
 	echo ''
 	echo -e '\e[96mStopping the vultek-alert.service daemon...\e[0m'
-	systemctl stop vultek-alert.service
-	echo ''
-	echo -e '\e[96mUpdating application components (encryption key and configuration will remain intact)...\e[0m'
 	dir=$(sudo pwd)
-	cp -r VulTek-Alert-Suite /etc/
-	chown vultek_alert:vultek_alert -R /etc/VulTek-Alert-Suite
+	systemctl stop vultek-alert.service
+	cp vultek-alert.service /etc/systemd/system/
+	systemctl daemon-reload
+	echo ''
+	echo -e '\e[96mDemon updated...\e[0m'
 	sleep 3
 	echo ''
-	echo -e '\e[96mDeleting the current VulTek-Alert configuration file...\e[0m'
-	rm -rf /etc/VulTek-Alert-Suite/VulTek-Alert/conf/vultek_alert_conf.yaml
+	echo -e '\e[96mUpdating application components...\e[0m'
+	#rm -rf /etc/VulTek-Alert-Suite
+	cp -r VulTek-Alert-Suite /etc/
+	mkdir /etc/VulTek-Alert-Suite/VulTek-Alert/configuration
+	mkdir /etc/VulTek-Alert-Suite/VulTek-Alert/database
+	chown vultek_alert:vultek_alert -R /etc/VulTek-Alert-Suite
+	echo ''
+	echo -e '\e[96mUpdated application components...\e[0m'
+	sleep 3
+	echo ''
+	echo -e '\e[96mCreating passphrase...\e[0m'
+	passphrase=$(cat /dev/urandom | head -n 30 | md5sum | head -c 30)
+	cat << EOF > /etc/VulTek-Alert-Suite/VulTek-Alert/configuration/key 
+$passphrase
+EOF
+	echo ''
+	echo -e '\e[96mPassphrase created...\e[0m'
 	sleep 3
 	echo ''
 	echo -e '\e[96mUpdate finished...\e[0m'
-	echo ''
-	echo -e '\e[96mCreating aliases for VulTek-Alert-Tool...\e[0m'
-	echo "alias VulTek-Alert-Tool='/etc/VulTek-Alert-Suite/VulTek-Alert-Tool/VulTek_Alert_Tool.py'" >> ~/.bashrc
-	echo ''
-	echo -e '\e[96mAliases created...\e[0m'
-	sleep 3
 	echo ''
 	echo -e '\e[96mStarting VulTek-Alert-Tool...\e[0m'
 	sleep 3

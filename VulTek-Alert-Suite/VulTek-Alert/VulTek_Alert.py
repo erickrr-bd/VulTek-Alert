@@ -1,14 +1,14 @@
 #! /usr/bin/env python3
 
-from modules.VulTekClass import VulTek
+from modules.VulTek_Alert_Class import VulTekAlert
 
 """
-Variable that stores an object of the VulTek class.
+Attribute that stores an object of the VulTekAlert class.
 """
-vultek = VulTek()
+vultek_alert = VulTekAlert()
 
 """
 Main function of the application.
 """
 if __name__ == "__main__":	
-		vultek.startApplication()
+		vultek_alert.startVulTekAlert()
