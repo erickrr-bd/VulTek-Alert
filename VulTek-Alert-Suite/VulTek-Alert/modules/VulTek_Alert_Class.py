@@ -1,6 +1,7 @@
 from os import path
 from sys import exit
 from requests import get
+from datetime import datetime
 from libPyLog import libPyLog
 from time import sleep, strftime
 from libPyUtils import libPyUtils
@@ -54,25 +55,28 @@ class VulTekAlert:
 		self.__logger.createApplicationLog("VulTek-Alert started...", 1, use_stream_handler = True)
 		try:
 			data_configuration = self.__utils.readYamlFile(self.__constants.PATH_FILE_CONFIGURATION)
+			time_execution = data_configuration['time_execution'].split(':')
 			while True:
-				for severity in data_configuration['options_level_vulnerabilities']:
-					http_response = get("https://access.redhat.com/hydra/rest/securitydata/cve.json?created_days_ago=1&severity=" + severity)
-					if http_response.status_code == 200:
-						all_cve_data_json = http_response.json()
-						passphrase = self.__utils.getPassphraseKeyFile(self.__constants.PATH_KEY_FILE)
-						telegram_bot_token = self.__utils.decryptDataWithAES(data_configuration['telegram_bot_token'], passphrase).decode('utf-8')
-						telegram_chat_id = self.__utils.decryptDataWithAES(data_configuration['telegram_chat_id'], passphrase).decode('utf-8')
-						if not all_cve_data_json:
-							self.__logger.createApplicationLog("CVE's not found of the level of criticality: " + severity, 1, use_stream_handler = True)
-							message_to_send = self.__generateNoVulnerabilitiesMessageTelegram(severity)
-							response_http_code = self.__telegram.sendMessageTelegram(telegram_bot_token, telegram_chat_id, message_to_send)
-							self.__createLogByTelegramCode(response_http_code)
+				now = datetime.now()
+				if (now.hour == int(time_execution[0]) and now.minute == int(time_execution[1])):
+					for severity in data_configuration['options_level_vulnerabilities']:
+						http_response = get("https://access.redhat.com/hydra/rest/securitydata/cve.json?created_days_ago=1&severity=" + severity)
+						if http_response.status_code == 200:
+							all_cve_data_json = http_response.json()
+							passphrase = self.__utils.getPassphraseKeyFile(self.__constants.PATH_KEY_FILE)
+							telegram_bot_token = self.__utils.decryptDataWithAES(data_configuration['telegram_bot_token'], passphrase).decode('utf-8')
+							telegram_chat_id = self.__utils.decryptDataWithAES(data_configuration['telegram_chat_id'], passphrase).decode('utf-8')
+							if not all_cve_data_json:
+								self.__logger.createApplicationLog("CVE's not found of the level of criticality: " + severity, 1, use_stream_handler = True)
+								message_to_send = self.__generateNoVulnerabilitiesMessageTelegram(severity)
+								response_http_code = self.__telegram.sendMessageTelegram(telegram_bot_token, telegram_chat_id, message_to_send)
+								self.__createLogByTelegramCode(response_http_code)
+							else:
+								for data in all_cve_data_json:
+									self.__validateExistsCVEinDatabaseFile(data['CVE'], telegram_bot_token, telegram_chat_id)
 						else:
-							for data in all_cve_data_json:
-								self.__validateExistsCVEinDatabaseFile(data['CVE'], telegram_bot_token, telegram_chat_id)
-					else:
-						self.__logger.createApplicationLog("Invalid response. Error getting the CVE's.", 3, use_stream_handler = True)
-						exit(1)
+							self.__logger.createApplicationLog("Invalid response. Error getting the CVE's.", 3, use_stream_handler = True)
+							exit(1)
 				sleep(60)
 		except (FileNotFoundError, IOError, OSError) as exception:
 			self.__logger.createApplicationLog(exception, 3)
@@ -88,6 +92,8 @@ class VulTekAlert:
 		Method that validates if a CVE exists in the database file.
 
 		:arg cve_id: CVE identifier.
+		:arg telegram_bot_token: Telegram bot token that will be used to send the messages.
+		:arg telegram_chat_id: Identifier of the Telegram channel where the messages will be sent.
 		"""
 		if path.exists(self.__constants.PATH_DATABASE_FILE):
 			database_cves = self.__utils.readYamlFile(self.__constants.PATH_DATABASE_FILE)
@@ -107,6 +113,8 @@ class VulTekAlert:
 		Method that obtains the information of a specific CVE.
 
 		:arg cve_id: CVE identifier.
+		:arg telegram_bot_token: Telegram bot token that will be used to send the messages.
+		:arg telegram_chat_id: Identifier of the Telegram channel where the messages will be sent.
 		"""
 		http_response = get("https://access.redhat.com/hydra/rest/securitydata/cve.json?ids=" + cve_id)
 		if http_response.status_code == 200:

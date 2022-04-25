@@ -53,6 +53,8 @@ class Configuration:
 		"""
 		data_configuration = []
 		try:
+			time_execution = self.__dialog.createTimeDialog("Choose the time:", 4, 10, -1, -1)
+			data_configuration.append(str(time_execution[0]) + ':' + str(time_execution[1]))
 			options_level_vulnerabilities = self.__dialog.createCheckListDialog("Select one or more options:", 12, 50, self.__constants.OPTIONS_LEVEL_VULNERABILITIES, "Vulnerabilities Levels")
 			data_configuration.append(options_level_vulnerabilities)
 			passphrase = self.__utils.getPassphraseKeyFile(self.__constants.PATH_KEY_FILE)
@@ -75,10 +77,14 @@ class Configuration:
 		"""
 		Method that allows to modify one or more values in the VulTek-Alert configuration file.
 		"""
-		options_fields_update = self.__dialog.createCheckListDialog("Select one or more options:", 10, 70, self.__constants.OPTIONS_FIELDS_UPDATE, "Configuration Fields")
+		options_fields_update = self.__dialog.createCheckListDialog("Select one or more options:", 12, 70, self.__constants.OPTIONS_FIELDS_UPDATE, "Configuration Fields")
 		try:
 			data_configuration = self.__utils.readYamlFile(self.__constants.PATH_FILE_CONFIGURATION)
 			hash_file_configuration_original = self.__utils.getHashFunctionToFile(self.__constants.PATH_FILE_CONFIGURATION)
+			if 'Time' in options_fields_update:
+				time_execution_actual = data_configuration['time_execution'].split(':')
+				time_execution = self.__dialog.createTimeDialog("Choose the time:", 4, 10, int(time_execution_actual[0]), int(time_execution_actual[1]))
+				data_configuration['time_execution'] = str(time_execution[0]) + ':' + str(time_execution[1])
 			if 'Level' in options_fields_update:
 				if "low" in data_configuration['options_level_vulnerabilities']:
 					self.__constants.OPTIONS_LEVEL_VULNERABILITIES[0][2] = 1
@@ -124,9 +130,10 @@ class Configuration:
 
 		:arg data_configuration: Data to be stored in the configuration file.
 		"""
-		data_configuration_json = {'options_level_vulnerabilities' : data_configuration[0],
-								   'telegram_bot_token' : data_configuration[1],
-								   'telegram_chat_id' : data_configuration[2]}
+		data_configuration_json = {'time_execution' : data_configuration[0],
+								   'options_level_vulnerabilities' : data_configuration[1],
+								   'telegram_bot_token' : data_configuration[2],
+								   'telegram_chat_id' : data_configuration[3]}
 
 		self.__utils.createYamlFile(data_configuration_json, self.__constants.PATH_FILE_CONFIGURATION)
 		self.__utils.changeOwnerToPath(self.__constants.PATH_FILE_CONFIGURATION, self.__constants.USER, self.__constants.GROUP)

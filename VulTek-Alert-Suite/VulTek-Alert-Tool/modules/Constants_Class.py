@@ -58,7 +58,8 @@ class Constants:
 	"""
 	Options that are shown when a value is going to be modified in the VulTek-Alert configuration.
 	"""
-	OPTIONS_FIELDS_UPDATE = [("Level", "Vulnerability level", 0),
+	OPTIONS_FIELDS_UPDATE = [("Time", "Time execution", 0),
+							 ("Level", "Vulnerability level", 0),
 							 ("Bot Token", "Telegram Bot Token", 0),
 							 ("Chat ID", "Telegram channel identifier", 0)]
 
