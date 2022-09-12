@@ -30,7 +30,7 @@ class VulTekAlertTool:
 
 	def mainMenu(self):
 		"""
-		Method that shows the main menu of the application.
+		Method that shows the "Main" menu of the application.
 		"""
 		option_main_menu = self.__dialog.createMenuDialog("Select a option:", 12, 50, self.__constants.OPTIONS_MAIN_MENU, "Main Menu")
 		self.__switchMainMenu(int(option_main_menu))
@@ -38,7 +38,7 @@ class VulTekAlertTool:
 
 	def __serviceMenu(self):
 		"""
-		Method that shows the Service menu.
+		Method that shows the "Service" menu.
 		"""
 		option_service_menu = self.__dialog.createMenuDialog("Select a option:", 12, 50, self.__constants.OPTIONS_SERVICE_MENU, "Service Menu")
 		self.__switchServiceMenu(int(option_service_menu))
@@ -46,7 +46,7 @@ class VulTekAlertTool:
 
 	def __switchMainMenu(self, option):
 		"""
-		Method that executes a certain action based on the number of the option chosen in the Main menu.
+		Method that executes a certain action based on the number of the option chosen in the "Main" menu.
 
 		:arg option: Option number.
 		"""
@@ -62,7 +62,7 @@ class VulTekAlertTool:
 
 	def __switchServiceMenu(self, option):
 		"""
-		Method that executes a certain action based on the number of the option chosen in the Service menu.
+		Method that executes a certain action based on the number of the option chosen in the "Service" menu.
 
 		:arg option: Option number.
 		"""
@@ -96,5 +96,5 @@ class VulTekAlertTool:
 		"""
 		Method that shows the "About" of the application.
 		"""
-		message_to_show = "\nCopyright@2022 Tekium. All rights reserved.\nVulTek-Alert v3.1\nAuthor: Erick Rodriguez\nEmail: erickrr.tbd93@gmail.com, erodriguez@tekium.mx\n" + "License: GPLv3\n\nApplication that searches for CVE's of certain levels of\ncriticality and if found, sends them in the form of an alert via\nTelegram."
+		message_to_show = "\nCopyright@2022 Tekium. All rights reserved.\nVulTek-Alert v3.2\nAuthor: Erick Rodriguez\nEmail: erickrr.tbd93@gmail.com, erodriguez@tekium.mx\n" + "License: GPLv3\n\nApplication that searches for CVE's of certain levels of\ncriticality and if found, sends them in the form of an alert via\nTelegram."
 		self.__dialog.createScrollBoxDialog(message_to_show, 15, 70, "About")

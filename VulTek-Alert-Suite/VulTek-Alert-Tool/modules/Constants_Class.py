@@ -23,11 +23,6 @@ class Constants:
 	NAME_FILE_LOG = "/var/log/VulTek-Alert/vultek-alert-tool-log-"
 
 	"""
-	Name of the application logs.
-	"""
-	NAME_LOG = "VULTEK_ALERT_TOOL_LOG"
-
-	"""
 	Name of the user created for the operation of the application.
 	"""
 	USER = "vultek_alert"
@@ -38,7 +33,7 @@ class Constants:
 	GROUP = "vultek_alert"
 
 	"""
-	Options displayed in the main menu.
+	Options displayed in the "Main" menu.
 	"""
 	OPTIONS_MAIN_MENU = [("1", "VulTek-Alert Configuration"),
 				  	  	 ("2", "VulTek-Alert Service"),
@@ -58,13 +53,12 @@ class Constants:
 	"""
 	Options that are shown when a value is going to be modified in the VulTek-Alert configuration.
 	"""
-	OPTIONS_FIELDS_UPDATE = [("Time", "Time execution", 0),
-							 ("Level", "Vulnerability level", 0),
+	OPTIONS_FIELDS_UPDATE = [("Level", "Vulnerability level", 0),
 							 ("Bot Token", "Telegram Bot Token", 0),
 							 ("Chat ID", "Telegram channel identifier", 0)]
 
 	"""
-	Options displayed in the service menu.
+	Options displayed in the "Service" menu.
 	"""
 	OPTIONS_SERVICE_MENU = [("1", "Start Service"),
 				            ("2", "Restart Service"),

@@ -23,11 +23,6 @@ class Constants:
 	NAME_FILE_LOG = "/var/log/VulTek-Alert/vultek-alert-log-"
 
 	"""
-	Name of the application logs.
-	"""
-	NAME_LOG = "VULTEK_ALERT_LOG"
-
-	"""
 	Name of the user created for the operation of the application.
 	"""
 	USER = "vultek_alert"
