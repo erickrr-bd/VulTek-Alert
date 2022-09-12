@@ -72,3 +72,16 @@ class Constants:
 								     ["moderate", "Medium level vulnerability", 0],
 								     ["important", "Important level vulnerability", 0],
 								     ["critical", "Critical level vulnerability", 0]]
+
+	"""
+	Options that are displayed to select an unit time.
+	"""
+	OPTIONS_UNIT_TIME = [["minutes", "Time expressed in minutes", 1],
+					  	 ["hours", "Time expressed in hours", 0],
+					  	 ["days", "Time expressed in days", 0]]
+
+	"""
+	Options that are displayed to select an authentication method.
+	"""
+	OPTIONS_AUTHENTICATION_METHOD = [("HTTP authentication", "Use HTTP Authentication", 0),
+								     ("API Key", "Use API Key", 0)]
