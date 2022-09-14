@@ -7,7 +7,7 @@ from .Constants_Class import Constants
 """
 Class that manages what is related to the configuration of VulTek-Alert.
 """
-class Configuration:
+class VulTekAlertConfiguration:
 	"""
 	Attribute that stores an object of the libPyUtils class.
 	"""
@@ -102,9 +102,9 @@ class Configuration:
 						data_vultek_alert_configuration.append(api_key.decode("utf-8"))
 				else:
 					data_vultek_alert_configuration.append(False)
-				else:
-					data_vultek_alert_configuration.append(False)
-			self.__createFileYamlConfiguration(data_vultek_alert_configuration)
+			else:
+				data_vultek_alert_configuration.append(False)
+			self.__createYamlFileConfiguration(data_vultek_alert_configuration)
 			if path.exists(self.__constants.PATH_FILE_CONFIGURATION):
 				self.__dialog.createMessageDialog("\nConfiguration file created.", 7, 50, "Notification Message")
 				self.__logger.generateApplicationLog("Configuration file created", 1, "__createConfiguration", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
@@ -167,7 +167,7 @@ class Configuration:
 			self.__action_to_cancel()
 
 
-	def __createFileYamlConfiguration(self, data_vultek_alert_configuration):
+	def __createYamlFileConfiguration(self, data_vultek_alert_configuration):
 		"""
 		Method that creates the YAML file corresponding to the VulTek-Alert configuration.
 
@@ -175,9 +175,36 @@ class Configuration:
 		"""
 		data_vultek_alert_configuration_json = {
 			"options_level_vulnerabilities" : data_vultek_alert_configuration[0],
-			"telegram_bot_token" : data_vultek_alert_configuration[1],
-			"telegram_chat_id" : data_vultek_alert_configuration[2]
+			"created_days_ago" : int(data_vultek_alert_configuration[1]),
+			"time_search" : {data_vultek_alert_configuration[2] : int(data_vultek_alert_configuration[3])},
+			"telegram_bot_token" : data_vultek_alert_configuration[4],
+			"telegram_chat_id" : data_vultek_alert_configuration[5],
+			"integration_with_elastic" : data_vultek_alert_configuration[6]
 		}
+
+		if data_vultek_alert_configuration[6] == True:
+			integration_with_elastic_json = {"es_host" : data_vultek_alert_configuration[7], "es_port" : int(data_vultek_alert_configuration[8]), "use_ssl_tls" : data_vultek_alert_configuration[9]}
+			data_vultek_alert_configuration_json.update(integration_with_elastic_json)
+			if data_vultek_alert_configuration[9] == True:
+				if data_vultek_alert_configuration[10] == True:
+					verificate_certificate_ssl_json = {"verificate_certificate_ssl" : data_vultek_alert_configuration[10], "path_certificate_file" : data_vultek_alert_configuration[11]}
+					last_index = 11
+				else:
+					verificate_certificate_ssl_json = {"verificate_certificate_ssl" : data_vultek_alert_configuration[10]}
+					last_index = 10
+				data_vultek_alert_configuration_json.update(verificate_certificate_ssl_json)
+			else:
+				last_index = 9
+			if data_vultek_alert_configuration[last_index + 1] == True:
+				if data_vultek_alert_configuration[last_index + 2] == "HTTP authentication":
+					http_authentication_json = {"use_authentication_method" : data_vultek_alert_configuration[last_index + 1], "authentication_method" : data_vultek_alert_configuration[last_index + 2], "user_http_authentication" : data_vultek_alert_configuration[last_index + 3], "password_http_authentication" : data_vultek_alert_configuration[last_index + 4]}
+					data_vultek_alert_configuration_json.update(http_authentication_json)
+				elif data_vultek_alert_configuration[last_index + 2] == "API Key":
+					api_key_json = {"use_authentication_method" : data_vultek_alert_configuration[last_index + 1], "authentication_method" : data_vultek_alert_configuration[last_index + 2], "api_key_id" : data_vultek_alert_configuration[last_index + 3], "api_key" : data_vultek_alert_configuration[last_index + 4]}
+					data_vultek_alert_configuration_json.update(api_key_json)
+			else:
+				authentication_method_json = {"use_authentication_method" : data_vultek_alert_configuration[last_index + 1]}
+				data_vultek_alert_configuration_json.update(authentication_method_json)
 
 		self.__utils.createYamlFile(data_vultek_alert_configuration_json, self.__constants.PATH_FILE_CONFIGURATION)
 		self.__utils.changeOwnerToPath(self.__constants.PATH_FILE_CONFIGURATION, self.__constants.USER, self.__constants.GROUP)

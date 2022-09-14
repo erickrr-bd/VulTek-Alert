@@ -3,7 +3,7 @@ from sys import exit
 from .Service_Class import Service
 from libPyDialog import libPyDialog
 from .Constants_Class import Constants
-from .Configuration_Class import Configuration
+from .VulTek_Alert_Configuration_Class import VulTekAlertConfiguration
 
 """
 Class that manages what is related to the interfaces and actions of VulTek-Alert-Tool.
@@ -81,15 +81,15 @@ class VulTekAlertTool:
 		"""
 		Method that defines the action to perform on the VulTek-Alert configuration (create or modify).
 		"""
-		configuration = Configuration(self.mainMenu)
+		vultek_alert_configuration = VulTekAlertConfiguration(self.mainMenu)
 		if not path.exists(self.__constants.PATH_FILE_CONFIGURATION):
 			option_configuration_false = self.__dialog.createRadioListDialog("Select a option:", 8, 50, self.__constants.OPTIONS_CONFIGURATION_FALSE, "Configuration Options")
 			if option_configuration_false == "Create":
-				configuration.createConfiguration()
+				vultek_alert_configuration.createConfiguration()
 		else:
 			option_configuration_true = self.__dialog.createRadioListDialog("Select a option:", 8, 50, self.__constants.OPTIONS_CONFIGURATION_TRUE, "Configuration Options")
 			if option_configuration_true == "Modify":
-				configuration.modifyConfiguration()
+				vultek_alert_configuration.modifyConfiguration()
 
 
 	def __showApplicationAbout(self):
