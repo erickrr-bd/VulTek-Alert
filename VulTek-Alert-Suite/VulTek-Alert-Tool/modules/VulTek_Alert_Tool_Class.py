@@ -48,7 +48,7 @@ class VulTekAlertTool:
 		"""
 		Method that executes a certain action based on the number of the option chosen in the "Main" menu.
 
-		:arg option: Option number.
+		:arg option (integer): Option number.
 		"""
 		if option == 1:
 			self.__defineConfiguration()
@@ -64,7 +64,7 @@ class VulTekAlertTool:
 		"""
 		Method that executes a certain action based on the number of the option chosen in the "Service" menu.
 
-		:arg option: Option number.
+		:arg option (integer): Option number.
 		"""
 		service = Service(self.mainMenu)
 		if option == 1:

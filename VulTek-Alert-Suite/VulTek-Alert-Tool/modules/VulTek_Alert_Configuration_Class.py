@@ -123,7 +123,7 @@ class VulTekAlertConfiguration:
 		Method that allows to modify one or more values in the VulTek-Alert configuration file.
 		"""
 		try:
-			options_fields_update = self.__dialog.createCheckListDialog("Select one or more options:", 10, 70, self.__constants.OPTIONS_FIELDS_UPDATE, "Configuration Fields")
+			options_fields_update = self.__dialog.createCheckListDialog("Select one or more options:", 14, 70, self.__constants.OPTIONS_FIELDS_UPDATE, "Configuration Fields")
 			data_vultek_alert_configuration = self.__utils.readYamlFile(self.__constants.PATH_FILE_CONFIGURATION)
 			hash_file_configuration_original = self.__utils.getHashFunctionToFile(self.__constants.PATH_FILE_CONFIGURATION)
 			if "Level" in options_fields_update:
@@ -139,14 +139,102 @@ class VulTekAlertConfiguration:
 				data_vultek_alert_configuration["options_level_vulnerabilities"] = options_level_vulnerabilities
 				for i in range(4):
 					self.__constants.OPTIONS_LEVEL_VULNERABILITIES[i][2] = 0
-			if "Bot Token" in options_fields_update:
+			elif "Created Days Ago" in options_fields_update:
+				created_days_ago = self.__dialog.createInputBoxToNumberDialog("Enter how many days ago the CVEs will be obtained:", 10, 50, str(data_vultek_alert_configuration["created_days_ago"]))
+				data_vultek_alert_configuration["created_days_ago"] = int(created_days_ago)
+			elif "Time Search" in options_fields_update:
+				for number_unit_time in data_vultek_alert_configuration["time_search"]:
+					number_unit_time_search_actual = number_unit_time
+				for unit_time in self.__constants.OPTIONS_UNIT_TIME:
+					if unit_time[0] == number_unit_time_search_actual:
+						unit_time[2] = 1
+					else:
+						unit_time[2] = 0
+				option_unit_time_search = self.__dialog.createRadioListDialog("Select a option:", 10, 50, self.__constants.OPTIONS_UNIT_TIME, "Unit Time")
+				total_unit_time_search = self.__dialog.createInputBoxToNumberDialog("Enter the total in " + str(option_unit_time_search) + " in which you want the search to be repeated:", 10, 50, str(data_vultek_alert_configuration["time_search"][number_unit_time_search_actual]))
+				data_vultek_alert_configuration["time_search"] = {option_unit_time_search : int(total_unit_time_search)}
+			elif "Bot Token" in options_fields_update:
 				passphrase = self.__utils.getPassphraseKeyFile(self.__constants.PATH_KEY_FILE)
 				telegram_bot_token = self.__utils.encryptDataWithAES(self.__dialog.createInputBoxDialog("Enter the Telegram bot token:", 10, 50, self.__utils.decryptDataWithAES(data_vultek_alert_configuration["telegram_bot_token"], passphrase).decode("utf-8")), passphrase)
 				data_vultek_alert_configuration["telegram_bot_token"] = telegram_bot_token.decode("utf-8")
-			if "Chat ID" in options_fields_update:
+			elif "Chat ID" in options_fields_update:
 				passphrase = self.__utils.getPassphraseKeyFile(self.__constants.PATH_KEY_FILE)
 				telegram_chat_id = self.__utils.encryptDataWithAES(self.__dialog.createInputBoxDialog("Enter the Telegram channel identifier:", 10, 50, self.__utils.decryptDataWithAES(data_vultek_alert_configuration["telegram_chat_id"], passphrase).decode("utf-8")), passphrase)
 				data_vultek_alert_configuration["telegram_chat_id"] = telegram_chat_id.decode("utf-8")
+			elif "Elastic" in options_fields_update:
+				options_integration_elastic = self.__dialog.createCheckListDialog("Select one or more options:", 12, 70, self.__constants.OPTIONS_INTEGRATION_ELASTIC, "Integration ElasticSearch Fields")
+				if "Host" in options_integration_elastic:
+					es_host = self.__dialog.createInputBoxToIPDialog("Enter the ElasticSearch IP address:", 8, 50, data_vultek_alert_configuration["es_host"])
+					data_vultek_alert_configuration["es_host"] = es_host
+				elif "Port" in options_integration_elastic:
+					es_port = self.__dialog.createInputBoxToPortDialog("Enter the ElasticSearch listening port:", 8, 50, str(data_vultek_alert_configuration["es_port"]))
+					data_vultek_alert_configuration["es_port"] = int(es_port)
+				elif "SSL/TLS" in options_integration_elastic:
+					if data_vultek_alert_configuration["use_ssl_tls"] == True:
+						option_ssl_tls_true = self.__dialog.createRadioListDialog("Select a option:", 10, 70, self.__constants.OPTIONS_SSL_TLS_TRUE, "SSL/TLS Connection")
+						if option_ssl_tls_true == "Disable":
+							del data_vultek_alert_configuration["verificate_certificate_ssl"]
+							if "path_certificate_file" in data_vultek_alert_configuration:
+								del data_vultek_alert_configuration["path_certificate_file"]
+							data_vultek_alert_configuration["use_ssl_tls"] = False
+						elif option_ssl_tls_true == "Certificate Verification":
+							if data_vultek_alert_configuration["verificate_certificate_ssl"] == True:
+								option_verification_certificate_true = self.__dialog.createRadioListDialog("Select a option:", 10, 70, self.__constants.OPTIONS_VERIFICATION_CERTIFICATE_TRUE, "Certificate Verification")
+								if option_verification_certificate_true == "Disable":
+									if "path_certificate_file" in data_vultek_alert_configuration:
+										del data_vultek_alert_configuration["path_certificate_file"]
+									data_vultek_alert_configuration["verificate_certificate_ssl"] = False
+								elif option_verification_certificate_true == "Certificate File":
+									path_certificate_file = self.__dialog.createFileDialog(data_vultek_alert_configuration["path_certificate_file"], 8, 50, "Select the CA certificate:", ".pem")
+									data_vultek_alert_configuration["path_certificate_file"] = path_certificate_file
+							else:
+								option_verification_certificate_false = self.__dialog.createRadioListDialog("Select a option:", 8, 70, self.__constants.OPTIONS_VERIFICATION_CERTIFICATE_FALSE, "Certificate Verification")
+								if option_verification_certificate_false == "Enable":
+									data_vultek_alert_configuration["verificate_certificate_ssl"] = True
+									path_certificate_file = self.__dialog.createFileDialog("/etc/VulTek-Alert-Suite/VulTek-Alert", 8, 50, "Select the CA certificate:", ".pem")
+									verificate_certificate_ssl_json = {"path_certificate_file" : path_certificate_file}
+									data_vultek_alert_configuration.update(verificate_certificate_ssl_json)
+					else:
+						option_ssl_tls_false = self.__dialog.createRadioListDialog("Select a option:", 8, 70, self.__constants.OPTIONS_SSL_TLS_FALSE, "SSL/TLS Connection")
+						data_vultek_alert_configuration["use_ssl_tls"] = True
+						verificate_certificate_ssl = self.__dialog.createYesOrNoDialog("\nDo you require VulTek-Alert to validate the SSL certificate?", 8, 50, "Certificate Verification")
+						if verificate_certificate_ssl == "ok":
+							path_certificate_file = self.__dialog.createFileDialog("/etc/VulTek-Alert-Suite/VulTek-Alert", 8, 50, "Select the CA certificate:", ".pem")
+							verificate_certificate_ssl_json = {"verificate_certificate_ssl" : True, "path_certificate_file" : path_certificate_file}
+						else:
+							verificate_certificate_ssl_json = {"verificate_certificate_ssl" : False}
+						data_vultek_alert_configuration.update(verificate_certificate_ssl_json)
+				elif "Authentication" in options_integration_elastic:
+					if data_vultek_alert_configuration["use_authentication_method"] == True:
+						option_authentication_method_true = self.__dialog.createRadioListDialog("Select a option:", 10, 70, self.__constants.OPTIONS_AUTHENTICATION_TRUE, "Authentication Method")
+						if option_authentication_method_true == "Disable":
+							data_vultek_alert_configuration["use_authentication_method"] = False
+							if data_vultek_alert_configuration["authentication_method"] == "API Key":
+								del data_vultek_alert_configuration["api_key_id"]
+								del data_vultek_alert_configuration["api_key"]
+							elif data_vultek_alert_configuration["authentication_method"] == "HTTP authentication":
+								del data_vultek_alert_configuration["user_http_authentication"]
+								del data_vultek_alert_configuration["password_http_authentication"]
+							del data_vultek_alert_configuration["authentication_method"]
+						elif option_authentication_method_true == "Authentication Method":
+							print("Hola")
+					else:
+						option_authentication_method_false = self.__dialog.createRadioListDialog("Select a option:", 8, 50, self.__constants.OPTIONS_AUTHENTICATION_FALSE, "Authentication Method")
+						if option_authentication_method_false == "Enable":
+							data_vultek_alert_configuration["use_authentication_method"] = True
+							option_authentication_method = self.__dialog.createRadioListDialog("Select a option:", 10, 55, self.__constants.OPTIONS_AUTHENTICATION_METHOD, "Authentication Method")
+							if option_authentication_method == "HTTP authentication":
+								passphrase = self.__utils.getPassphraseKeyFile(self.__constants.PATH_KEY_FILE)
+								user_http_authentication = self.__utils.encryptDataWithAES(self.__dialog.createInputBoxDialog("Enter the username for HTTP authentication:", 8, 50, "user_http"), passphrase)
+								password_http_authentication = self.__utils.encryptDataWithAES(self.__dialog.createPasswordBoxDialog("Enter the user's password for HTTP authentication:", 8, 50, "password", True), passphrase)
+								http_authentication_json = {"authentication_method" : "HTTP authentication", "user_http_authentication" : user_http_authentication.decode("utf-8"), "password_http_authentication" : password_http_authentication.decode("utf-8")}
+								data_vultek_alert_configuration.update(http_authentication_json)
+							elif option_authentication_method == "API Key":
+								passphrase = self.__utils.getPassphraseKeyFile(self.__constants.PATH_KEY_FILE)
+								api_key_id = self.__utils.encryptDataWithAES(self.__dialog.createInputBoxDialog("Enter the API Key Identifier:", 8, 50, "VuaCfGcBCdbkQm-e5aOx"), passphrase)
+								api_key = self.__utils.encryptDataWithAES(self.__dialog.createInputBoxDialog("Enter the API Key:", 8, 50, "ui2lp2axTNmsyakw9tvNnw"), passphrase)
+								api_key_json = {"authentication_method" : "API Key", "api_key_id" : api_key_id.decode("utf-8"), "api_key" : api_key.decode("utf-8")}
+								data_vultek_alert_configuration.update(api_key_json)
 			self.__utils.createYamlFile(data_vultek_alert_configuration, self.__constants.PATH_FILE_CONFIGURATION)
 			hash_file_configuration_new = self.__utils.getHashFunctionToFile(self.__constants.PATH_FILE_CONFIGURATION)
 			if hash_file_configuration_new == hash_file_configuration_original:
@@ -171,7 +259,7 @@ class VulTekAlertConfiguration:
 		"""
 		Method that creates the YAML file corresponding to the VulTek-Alert configuration.
 
-		:arg data_vultek_alert_configuration: Data to be stored in the configuration file.
+		:arg data_vultek_alert_configuration (dict): Data to be stored in the configuration file.
 		"""
 		data_vultek_alert_configuration_json = {
 			"options_level_vulnerabilities" : data_vultek_alert_configuration[0],
