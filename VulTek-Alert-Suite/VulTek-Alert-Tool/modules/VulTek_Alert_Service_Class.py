@@ -8,7 +8,7 @@ from .Constants_Class import Constants
 """
 Class that manages what is related to the VulTek-Alert service.
 """
-class Service:
+class VulTekAlertService:
 	"""
 	Attribute that stores an object of the libPyUtils class.
 	"""
@@ -54,11 +54,11 @@ class Service:
 		"""
 		result = system("systemctl start vultek-alert.service")
 		if int(result) == 0:
-			self.__dialog.createMessageDialog("\nService started.", 7, 50, "Notification Message")
-			self.__logger.generateApplicationLog("Service started", 1, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
+			self.__dialog.createMessageDialog("\nVulTek-Alert service started.", 7, 50, "Notification Message")
+			self.__logger.generateApplicationLog("VulTek-Alert service started", 1, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
 		elif int(result) == 1280:
-			self.__dialog.createMessageDialog("\nFailed to start service. Not found.", 7, 50, "Error Message")
-			self.__logger.generateApplicationLog("Failed to start service. Not found.", 3, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
+			self.__dialog.createMessageDialog("\nFailed to start VulTek-Alert service. Not found.", 8, 50, "Error Message")
+			self.__logger.generateApplicationLog("Failed to start VulTek-Alert service. Not found.", 3, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
 		self.__action_to_cancel()
 
 
@@ -68,11 +68,11 @@ class Service:
 		"""
 		result = system("systemctl restart vultek-alert.service")
 		if int(result) == 0:
-			self.__dialog.createMessageDialog("\nService restarted.", 7, 50, "Notification Message")
-			self.__logger.generateApplicationLog("Service restarted", 1, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
+			self.__dialog.createMessageDialog("\nVulTek-Alert service restarted.", 7, 50, "Notification Message")
+			self.__logger.generateApplicationLog("VulTek-Alert service restarted", 1, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
 		elif int(result) == 1280:
-			self.__dialog.createMessageDialog("\nFailed to restart service. Not found.", 7, 50, "Error Message")
-			self.__logger.generateApplicationLog("Failed to restart service. Not found.", 3, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
+			self.__dialog.createMessageDialog("\nFailed to restart VulTek-Alert service. Not found.", 8, 50, "Error Message")
+			self.__logger.generateApplicationLog("Failed to restart VulTek-Alert service. Not found.", 3, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
 		self.__action_to_cancel()
 
 
@@ -82,11 +82,11 @@ class Service:
 		"""
 		result = system("systemctl stop vultek-alert.service")
 		if int(result) == 0:
-			self.__dialog.createMessageDialog("\nService stopped.", 7, 50, "Notification Message")
-			self.__logger.generateApplicationLog("Service stopped", 1, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
+			self.__dialog.createMessageDialog("\nVulTek-Alert service stopped.", 7, 50, "Notification Message")
+			self.__logger.generateApplicationLog("VulTek-Alert service stopped", 1, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
 		elif int(result) == 1280:
-			self.__dialog.createMessageDialog("\nFailed to stop service. Not found.", 7, 50, "Error Message")
-			self.__logger.generateApplicationLog("Failed to stop service. Not found.", 3, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
+			self.__dialog.createMessageDialog("\nFailed to stop VulTek-Alert service. Not found.", 8, 50, "Error Message")
+			self.__logger.generateApplicationLog("Failed to stop VulTek-Alert service. Not found.", 3, "__serviceVulTekAlert", use_file_handler = True, name_file_log = self.__constants.NAME_FILE_LOG, user = self.__constants.USER, group = self.__constants.GROUP)
 		self.__action_to_cancel()
 
 

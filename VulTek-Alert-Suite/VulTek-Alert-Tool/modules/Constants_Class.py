@@ -5,12 +5,17 @@ class Constants:
 	"""
 	Title that is shown in the background of the application.
 	"""
-	BACKTITLE = "VULTEK-ALERT-TOOL"
+	BACKTITLE = "VULTEK-ALERT-TOOL v3.2.1 by Erick Rodriguez"
 
 	"""
 	Absolute path of the VulTek-Alert configuration file.
 	"""
-	PATH_FILE_CONFIGURATION = "/etc/VulTek-Alert-Suite/VulTek-Alert/configuration/vultek_alert_conf.yaml"
+	PATH_VULTEK_ALERT_CONFIGURATION_FILE = "/etc/VulTek-Alert-Suite/VulTek-Alert/configuration/vultek_alert_conf.yaml"
+
+	"""
+	Absolute path of the VulTek-Alert-Agent configuration file.
+	"""
+	PATH_VULTEK_ALERT_AGENT_CONFIGURATION_FILE = "/etc/VulTek-Alert-Suite/VulTek-Alert-Agent/configuration/vultek_alert_agent_conf.yaml"
 
 	"""
 	Absolute path of the file where the key for the encryption/decryption process is stored.
@@ -37,8 +42,9 @@ class Constants:
 	"""
 	OPTIONS_MAIN_MENU = [("1", "VulTek-Alert Configuration"),
 				  	  	 ("2", "VulTek-Alert Service"),
-				  	  	 ("3", "About"),
-			      	  	 ("4", "Exit")]
+				  	  	 ("3", "VulTek-Alert-Agent"),
+				  	  	 ("4", "About"),
+			      	  	 ("5", "Exit")]
 
 	"""
 	Options that are shown when the configuration file does not exist.
@@ -48,7 +54,8 @@ class Constants:
 	"""
 	Options that are shown when the configuration file exists.
 	"""
-	OPTIONS_CONFIGURATION_TRUE = [("Modify", "Modify the configuration file", 0)]
+	OPTIONS_CONFIGURATION_TRUE = [("Modify", "Modify the configuration file", 0),
+								  ("Show", "Show the configuration data", 0)]
 
 	"""
 	Options that show the level of criticality of the vulnerabilities.
@@ -74,12 +81,23 @@ class Constants:
 	"""
 	Options that are shown when a value is going to be modified in the VulTek-Alert configuration.
 	"""
-	OPTIONS_FIELDS_UPDATE = [("Level", "Vulnerability level", 0),
-							 ("Created Days Ago", "Time range in which CVE's will be searched", 0),
-							 ("Time Search", "Time in which the search will be repeated", 0),
-							 ("Bot Token", "Telegram Bot Token", 0),
-							 ("Chat ID", "Telegram channel identifier", 0),
-							 ("Elastic", "Integration with ElasticSearch",0)]
+	OPTIONS_VULTEK_ALERT_UPDATE = [("Level", "Vulnerability level", 0),
+							 	   ("Created Days Ago", "Time range in which CVE's will be searched", 0),
+							       ("Time Search", "Time in which the search will be repeated", 0),
+							       ("Bot Token", "Telegram Bot Token", 0),
+							       ("Chat ID", "Telegram channel identifier", 0),
+							       ("Elastic", "Integration with ElasticSearch",0)]
+
+	"""
+	Options that are displayed when the elastic integration is enabled.
+	"""
+	OPTIONS_INTEGRATION_ES_TRUE = [("Data", "Modify integration data", 0),
+								   ("Disable", "Disable integration with ElasticSearch", 0)]
+
+	"""
+	Options that are displayed when the elastic integration is disabled.
+	"""
+	OPTIONS_INTEGRATION_ES_FALSE = [("Enable", "Enable integration with ElasticSearch", 0)]
 
 	"""
 	Options that can be modified in the "Integration with ElasticSearch" section.
@@ -88,6 +106,13 @@ class Constants:
 							 	   ("Port", "ElasticSearch Port", 0),
 							 	   ("SSL/TLS", "Enable or disable SSL/TLS connection", 0),
 							 	   ("Authentication", "Enable or disable authentication method", 0)]
+
+	"""
+	Options that are displayed when "ElasticSearch hosts" option is modify.
+	"""
+	OPTIONS_ES_HOSTS_UPDATE = [("1", "Add New Hosts"),
+							   ("2", "Modify Hosts"),
+							   ("3", "Remove Hosts")]
 
 	"""
 	Options displayed when the use of SSL/TLS is enabled.
@@ -114,13 +139,31 @@ class Constants:
 	"""
 	Options that are displayed when authentication is enabled.
 	"""
-	OPTIONS_AUTHENTICATION_TRUE = [("Disable", "Disable authentication", 0),
-								   ("Authentication Method", "Modify authentication method data", 0)]
+	OPTIONS_AUTHENTICATION_TRUE = [("Data", "Modify authentication method", 0),
+								   ("Disable", "Disable authentication method", 0)]
+
+	"""
+	Options that are displayed when modify an authentication method.
+	"""
+	OPTIONS_AUTHENTICATION_METHOD_TRUE = [("Data", "Modify authentication method data", 0),
+								   	      ("Disable", "Disable authentication method", 0)]
 
 	"""
 	Options that are displayed when authentication is disabled.
 	"""
 	OPTIONS_AUTHENTICATION_FALSE = [("Enable", "Enable authentication", 0)]
+
+	"""
+	Options that are displayed when the HTTP authentication credentials are to be modified.
+	"""
+	OPTIONS_HTTP_AUTHENTICATION_DATA = [("Username", "Username for HTTP Authentication", 0),
+								 		("Password", "User password", 0)]
+
+	"""
+	Options that are displayed when the API Key credentials are to be modified.
+	"""
+	OPTIONS_API_KEY_DATA = [("API Key ID", "API Key Identifier", 0),
+							("Api Key", "API Key", 0)]
 
 	"""
 	Options displayed in the "Service" menu.
@@ -129,3 +172,17 @@ class Constants:
 				            ("2", "Restart Service"),
 				            ("3", "Stop Service"),
 				            ("4", "Service Status")]
+
+	"""
+	Options displayed in the "VulTek-Alert-Agent" menu.
+	"""
+	OPTIONS_VULTEK_ALERT_AGENT_MENU = [("1", "Configuration"),
+							   		   ("2", "VulTek-Alert-Agent Service")]
+
+	"""
+	Options that are shown when a value is going to be modified in the VulTek-Alert-Agent configuration.
+	"""
+	OPTIONS_VULTEK_ALERT_AGENT_UPDATE = [("First Execution", "First time the service is validated", 0),
+							 			 ("Second Execution", "Second time the service is validated", 0),
+							 			 ("Bot Token", "Telegram Bot Token", 0),
+							 			 ("Chat ID", "Telegram channel identifier", 0)]

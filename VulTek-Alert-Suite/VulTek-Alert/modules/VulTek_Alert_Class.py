@@ -54,7 +54,7 @@ class VulTekAlert:
 		"""
 		Method that starts the application.
 		"""
-		self.__logger.generateApplicationLog("VulTek-Alert v3.2", 1, "__start", use_stream_handler = True)
+		self.__logger.generateApplicationLog("VulTek-Alert v3.2.1", 1, "__start", use_stream_handler = True)
 		self.__logger.generateApplicationLog("@2022 Tekium. All rights reserved.", 1, "__start", use_stream_handler = True)
 		self.__logger.generateApplicationLog("Author: Erick Rodriguez", 1, "__start", use_stream_handler = True)
 		self.__logger.generateApplicationLog("Email: erodriguez@tekium.mx, erickrr.tbd93@gmail.com", 1, "__start", use_stream_handler = True)
@@ -70,9 +70,11 @@ class VulTekAlert:
 				if data_configuration["use_authentication_method"] == True:
 					if data_configuration["authentication_method"] == "API Key":
 						conn_es = self.__elasticsearch.createConnectionToElasticSearchAPIKey(data_configuration, self.__constants.PATH_KEY_FILE)
+					elif data_configuration["authentication_method"] == "HTTP authentication":
+						conn_es = self.__elasticsearch.createConnectionToElasticSearchHTTPAuthentication(data_configuration, self.__constants.PATH_KEY_FILE)
 				else:
 					conn_es = self.__elasticsearch.createConnectionToElasticSearchWithoutAuthentication(data_configuration)
-				self.__logger.generateApplicationLog("Established connection with: " + data_configuration['es_host'] + ':' + str(data_configuration['es_port']), 1, "__connection" , use_stream_handler = True)
+				self.__logger.generateApplicationLog("Established connection with: " + ",".join(data_configuration['es_host']) + ':' + str(data_configuration['es_port']), 1, "__connection" , use_stream_handler = True)
 				self.__logger.generateApplicationLog("Elasticsearch Cluster Name: " + conn_es.info()["cluster_name"], 1, "__connection", use_stream_handler = True)
 				self.__logger.generateApplicationLog("Elasticsearch Version: " + conn_es.info()["version"]["number"], 1, "__connection", use_stream_handler = True)
 			passphrase = self.__utils.getPassphraseKeyFile(self.__constants.PATH_KEY_FILE)

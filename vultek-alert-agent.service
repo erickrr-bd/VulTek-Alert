@@ -1,11 +1,11 @@
 [Unit]
-Description=VulTek-Alert v3.2.1 by Erick Rodriguez
+Description=VulTek-Alert-Agent v3.2.1 by Erick Rodriguez
 After=networking.target
 StartLimitIntervalSec=0
 
 [Service]
 Type=simple
-ExecStart=/etc/VulTek-Alert-Suite/VulTek-Alert/VulTek_Alert.py
+ExecStart=/etc/VulTek-Alert-Suite/VulTek-Alert-Agent/VulTek_Alert_Agent.py
 User=vultek_alert
 Restart=on-failure
 RestartSec=1
